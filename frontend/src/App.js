@@ -1,12 +1,22 @@
 import React from 'react';
 import GlobalStyle from "./config/css-reset";
+import Header from './components/header';
+import Sidebar from "./components/sidebar";
+import {Container, ContainerBottom} from "./styles";
+import AppContainer from "./components/app-container";
 
 function App() {
     return (
-        <div>
+        <Container>
             <GlobalStyle/>
-            <h1>CinemaIF</h1>
-        </div>
+            <Header />
+            <ContainerBottom>
+                <Sidebar/>
+                <AppContainer>
+
+                </AppContainer>
+            </ContainerBottom>
+        </Container>
     );
 }
 
