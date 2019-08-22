@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import {colors} from "../../config/theme";
-import {FaArrowRight} from 'react-icons/fa';
 import {parse} from "../../util/styled-components/font-size";
 
 const Container = styled('div')`
