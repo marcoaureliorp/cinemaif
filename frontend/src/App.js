@@ -4,6 +4,7 @@ import Header from './components/header';
 import Sidebar from "./components/sidebar";
 import {Container, ContainerBottom} from "./styles";
 import AppContainer from "./components/app-container";
+import Filme from "./components/filme";
 
 function App() {
     return (
@@ -13,7 +14,7 @@ function App() {
             <ContainerBottom>
                 <Sidebar/>
                 <AppContainer>
-
+                   <Filme />
                 </AppContainer>
             </ContainerBottom>
         </Container>
