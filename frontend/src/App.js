@@ -4,20 +4,27 @@ import Header from './components/header';
 import Sidebar from "./components/sidebar";
 import {Container, ContainerBottom} from "./styles";
 import AppContainer from "./components/app-container";
-import Filme from "./components/filme";
+
+import {BrowserRouter} from "react-router-dom";
+
+import Route from './routes';
 
 function App() {
     return (
-        <Container>
-            <GlobalStyle/>
-            <Header />
-            <ContainerBottom>
-                <Sidebar/>
-                <AppContainer>
-                   <Filme />
-                </AppContainer>
-            </ContainerBottom>
-        </Container>
+        <BrowserRouter>
+            <>
+                <Container>
+                    <GlobalStyle/>
+                    <Header/>
+                    <ContainerBottom>
+                        <Sidebar/>
+                        <AppContainer>
+                            <Route />
+                        </AppContainer>
+                    </ContainerBottom>
+                </Container>
+            </>
+        </BrowserRouter>
     );
 }
 

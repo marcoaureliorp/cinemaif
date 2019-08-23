@@ -38,10 +38,32 @@ const Bar = styled('div')`
     }
 `;
 
+const ContainerBusca = styled('div')`
+    display: flex;
+`;
+
+const Search = styled('input').attrs({
+    placeholder: 'Procurar filmes',
+})`
+    width: 200px;
+    height: 25px;
+    background: transparent;
+    padding: 5px 20px 5px 10px;
+    display: flex;
+    align-items: center;
+    color: ${colors.white};
+    font-size: ${props => props.font_size ?  parse(props.font_size) : parse(16)};
+    font-weight: bold;
+    
+    &::placeholder {
+      color: ${colors.white};
+    }
+`;
+
 const Text = styled('span')`
     font-size: ${props => props.font_size ?  parse(props.font_size) : parse(16)};
     color: ${colors.white};
     font-weight: ${props => props.weight ? props.weight : 'normal'};
 `;
 
-export {Container, Logo, Bar, Text};
+export {Container, Logo, Bar, ContainerBusca, Search, Text};
