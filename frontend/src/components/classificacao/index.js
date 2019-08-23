@@ -1,8 +1,11 @@
 import React from 'react';
+import {Container} from './styles';
 
 function Classificacao(props) {
     return (
-        <div></div>
+        <Container background={props.background} >
+            {props.classificacao}
+        </Container>
     );
 }
 
