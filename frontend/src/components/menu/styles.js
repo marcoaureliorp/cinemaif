@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import {colors} from "../../config/theme";
-import {FaArrowRight} from 'react-icons/fa';
+import { FaArrowRight } from 'react-icons/fa';
+import { colors } from '../../config/theme';
 
 const Container = styled('div')`
     width: 100%;
@@ -13,7 +13,7 @@ const Container = styled('div')`
 const MenuItem = styled('div')`
     width: 100%;
     padding: 9px 55px;
-    background-color: ${props => props.active ? colors.grey : 'transparent'};
+    background-color: ${props => (props.active ? colors.grey : 'transparent')};
     position: relative;
     font-size: 18px;
     font-weight: bold;
@@ -30,4 +30,4 @@ const Icon = styled(FaArrowRight)`
     right: 20px;
 `;
 
-export {Container, MenuItem, Icon};
+export { Container, MenuItem, Icon };

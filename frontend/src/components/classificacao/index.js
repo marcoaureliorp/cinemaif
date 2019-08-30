@@ -1,12 +1,18 @@
 import React from 'react';
-import {Container} from './styles';
+import PropTypes from 'prop-types';
+import { Container } from './styles';
 
-function Classificacao(props) {
+function Classificacao({ classificacao, background }) {
     return (
-        <Container background={props.background} >
-            {props.classificacao}
+        <Container background={background}>
+            {classificacao}
         </Container>
     );
 }
+
+Classificacao.propTypes = {
+    classificacao: PropTypes.string.isRequired,
+    background: PropTypes.string.isRequired,
+};
 
 export default Classificacao;

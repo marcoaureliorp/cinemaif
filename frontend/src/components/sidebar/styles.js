@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {colors} from "../../config/theme";
+import { colors } from '../../config/theme';
 
 const Container = styled('aside')`
     min-width: 320px;
@@ -10,4 +10,4 @@ const Container = styled('aside')`
     justify-content: space-between;
 `;
 
-export {Container};
+export { Container };

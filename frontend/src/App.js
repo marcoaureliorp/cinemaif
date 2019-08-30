@@ -1,11 +1,11 @@
 import React from 'react';
-import GlobalStyle from "./config/css-reset";
+import { BrowserRouter } from 'react-router-dom';
+import GlobalStyle from './config/css-reset';
 import Header from './components/header';
-import Sidebar from "./components/sidebar";
-import {Container, ContainerBottom} from "./styles";
-import AppContainer from "./components/app-container";
+import Sidebar from './components/sidebar';
+import { Container, ContainerBottom } from './styles';
+import AppContainer from './components/app-container';
 
-import {BrowserRouter} from "react-router-dom";
 
 import Route from './routes';
 
@@ -14,10 +14,10 @@ function App() {
         <BrowserRouter>
             <>
                 <Container>
-                    <GlobalStyle/>
-                    <Header/>
+                    <GlobalStyle />
+                    <Header />
                     <ContainerBottom>
-                        <Sidebar/>
+                        <Sidebar />
                         <AppContainer>
                             <Route />
                         </AppContainer>

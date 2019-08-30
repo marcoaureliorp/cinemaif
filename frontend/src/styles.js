@@ -11,4 +11,4 @@ const ContainerBottom = styled('main')`
     display: flex;
 `;
 
-export {Container, ContainerBottom};
+export { Container, ContainerBottom };

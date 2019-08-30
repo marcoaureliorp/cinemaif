@@ -1,11 +1,7 @@
 import React from 'react';
 
-const Sessao = () => {
-    return (
-        <div>
-
-        </div>
-    );
-};
+const Sessao = () => (
+    <div />
+);
 
 export default Sessao;

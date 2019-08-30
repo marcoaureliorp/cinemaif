@@ -1,5 +1,5 @@
 import React from 'react';
-import {Container} from './styles';
+import { Container } from './styles';
 import Menu from '../menu';
 import ProximasSessoes from '../proximas-sessoes';
 

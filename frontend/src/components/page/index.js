@@ -1,7 +1,8 @@
 import React from 'react';
-import {Container} from './styles';
+import PropTypes from 'prop-types';
+import { Container } from './styles';
 
-function Page({children, title}) {
+function Page({ children, title }) {
     return (
         <Container>
             <h2>{title}</h2>
@@ -9,5 +10,17 @@ function Page({children, title}) {
         </Container>
     );
 }
+
+Page.propTypes = {
+    children: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.node),
+        PropTypes.node,
+    ]),
+    title: PropTypes.string.isRequired,
+};
+
+Page.defaultProps = {
+    children: null,
+};
 
 export default Page;

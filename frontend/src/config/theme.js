@@ -1,5 +1,6 @@
 const colors = {
     grey: '#222A31',
+    green: '#26AF5D',
     light_black: '#1A1C20',
     red: '#FF4350',
     light_grey: '#363737',
@@ -10,4 +11,4 @@ const colors = {
     white: '#fff',
 };
 
-export {colors};
+export { colors };

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {colors} from "../../config/theme";
+import { colors } from '../../config/theme';
 
 const Container = styled('main')`
     display: flex;
@@ -8,4 +8,4 @@ const Container = styled('main')`
     height: 100%;
 `;
 
-export {Container};
+export { Container };

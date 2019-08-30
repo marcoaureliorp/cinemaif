@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import {colors} from "../../config/theme";
-import {parse} from "../../util/styled-components/font-size";
+import { colors } from '../../config/theme';
+import { parse } from '../../util/styled-components/font-size';
 
 const Container = styled('div')`
     display: flex;
@@ -29,13 +29,15 @@ const Sala = styled('div')`
 `;
 
 const Text = styled('div')`
-    color: ${props => props.color ? props.color : colors.red};
-    font-size: ${props => props.font_size ? parse(props.font_size) : parse(16)};
-    font-weight: ${props => props.font_weight ? props.font_weight : 'regular'};
+    color: ${props => (props.color ? props.color : colors.red)};
+    font-size: ${props => (props.font_size ? parse(props.font_size) : parse(16))};
+    font-weight: ${props => (props.font_weight ? props.font_weight : 'regular')};
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    margin: ${props => props.margin ? props.margin : ''};
+    margin: ${props => (props.margin ? props.margin : '')};
 `;
 
-export {Text, Sala, Container, TextContainer};
+export {
+    Text, Sala, Container, TextContainer,
+};

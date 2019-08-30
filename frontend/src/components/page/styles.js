@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {colors} from "../../config/theme";
+import { colors } from '../../config/theme';
 
 const Container = styled('div')`
     padding: 70px;
@@ -14,4 +14,4 @@ const Container = styled('div')`
     }
 `;
 
-export {Container};
+export { Container };

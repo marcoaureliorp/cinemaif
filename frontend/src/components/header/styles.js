@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import {colors} from "../../config/theme";
-import {parse} from "../../util/styled-components/font-size";
+import { colors } from '../../config/theme';
+import { parse } from '../../util/styled-components/font-size';
 
 const Container = styled('header')`
     height: 80px;
@@ -52,7 +52,7 @@ const Search = styled('input').attrs({
     display: flex;
     align-items: center;
     color: ${colors.white};
-    font-size: ${props => props.font_size ?  parse(props.font_size) : parse(16)};
+    font-size: ${props => (props.font_size ? parse(props.font_size) : parse(16))};
     font-weight: bold;
     
     &::placeholder {
@@ -61,9 +61,11 @@ const Search = styled('input').attrs({
 `;
 
 const Text = styled('span')`
-    font-size: ${props => props.font_size ?  parse(props.font_size) : parse(16)};
+    font-size: ${props => (props.font_size ? parse(props.font_size) : parse(16))};
     color: ${colors.white};
-    font-weight: ${props => props.weight ? props.weight : 'normal'};
+    font-weight: ${props => (props.weight ? props.weight : 'normal')};
 `;
 
-export {Container, Logo, Bar, ContainerBusca, Search, Text};
+export {
+    Container, Logo, Bar, ContainerBusca, Search, Text,
+};

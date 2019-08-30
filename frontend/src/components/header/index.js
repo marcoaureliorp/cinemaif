@@ -1,7 +1,9 @@
 import React from 'react';
-import {MdPowerSettingsNew, MdSearch} from 'react-icons/md';
-import {colors} from "../../config/theme";
-import {Container, Logo, Bar, ContainerBusca, Search, Text} from './styles.js';
+import { MdPowerSettingsNew, MdSearch } from 'react-icons/md';
+import { colors } from '../../config/theme';
+import {
+    Container, Logo, Bar, ContainerBusca, Search, Text,
+} from './styles';
 
 function Header(props) {
     return (
@@ -13,7 +15,7 @@ function Header(props) {
                     <Search />
                 </ContainerBusca>
                 <div>
-                    <MdPowerSettingsNew color={colors.white} size="31px" style={{marginRight: '12px'}}/>
+                    <MdPowerSettingsNew color={colors.white} size="31px" style={{ marginRight: '12px' }} />
                     <Text weight="bold" font_size={18}>Sair</Text>
                 </div>
             </Bar>

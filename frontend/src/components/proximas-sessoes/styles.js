@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import {colors} from "../../config/theme";
-import {parse} from "../../util/styled-components/font-size";
+import { colors } from '../../config/theme';
+import { parse } from '../../util/styled-components/font-size';
 
 const Container = styled('div')`
     width: calc(100% - 60px);
@@ -21,4 +21,4 @@ const Title = styled('h2')`
     margin-bottom: 20px;
 `;
 
-export {Container, Title};
+export { Container, Title };
