@@ -39,16 +39,18 @@ function StyledTable({
 
     columns.push(
         {
-            Header: props => <div>Editar</div>,
+            Header: props => 'Editar',
             Cell: props => <EditIcon size={24} />,
             sortable: false,
             resizable: false,
+            width: '105',
         },
         {
-            Header: props => <div>Excluir</div>,
+            Header: props => 'Excluir',
             Cell: props => <TrashIcon size={24} />,
             sortable: false,
             resizable: false,
+            width: '105',
         },
     );
 

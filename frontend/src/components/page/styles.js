@@ -5,6 +5,8 @@ const Container = styled('div')`
     padding: 70px;
     display: flex;
     flex-direction: column;
+    width: 100%;
+    overflow: auto;
     
     h2 {
         font-weight: bold;

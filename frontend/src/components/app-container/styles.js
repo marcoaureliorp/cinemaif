@@ -3,7 +3,7 @@ import { colors } from '../../config/theme';
 
 const Container = styled('main')`
     display: flex;
-    background-color: ${colors.light_grey};
+    background-color: ${colors.grey};
     width: 100%;
     height: 100%;
 `;

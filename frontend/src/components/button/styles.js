@@ -40,4 +40,12 @@ const StyledButton = styled('div')`
     }
 `;
 
-export { StyledButton };
+const ButtonGroup = styled('div')`
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: auto;
+    ${props => (props.margin ? `margin: ${props.margin}` : null)};
+`;
+
+export { StyledButton, ButtonGroup };

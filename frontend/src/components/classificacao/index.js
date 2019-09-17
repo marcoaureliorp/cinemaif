@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Container } from './styles';
 
-function Classificacao({ classificacao, background }) {
+function Classificacao({ classificacao, ...props }) {
     return (
-        <Container background={background}>
+        <Container {...props}>
             {classificacao}
         </Container>
     );

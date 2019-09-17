@@ -58,6 +58,15 @@ const Table = styled(ReactTable)`
                 &:first-child{
                     padding-left: ${props => (props.padding_left_first_child ? '25px' : '42px')};
                 }
+                
+                &:last-child {
+                    padding-right: 50px;
+                    padding-left: 5px;
+                }
+                
+                &:nth-last-child(2) {
+                    padding-right: 5px;
+                }
             }
         }
     }
@@ -122,6 +131,17 @@ const Table = styled(ReactTable)`
                         padding-left: ${props => (props.padding_left_first_child ? '25px' : '42px')};
                     }
                     
+                    &:last-child {
+                        padding-right: 50px;
+                        justify-content: center;
+                        padding-left: 5px;
+                    }
+                    
+                    &:nth-last-child(2) {
+                        justify-content: center;
+                        padding-right: 5px;
+                    }
+                    
                     li.submenu{
                         display: none;
                     }
@@ -132,5 +152,5 @@ const Table = styled(ReactTable)`
 `;
 
 export {
-    Table, EditIcon, TrashIcon
+    Table, EditIcon, TrashIcon,
 };

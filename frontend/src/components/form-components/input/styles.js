@@ -8,7 +8,10 @@ const StyledInput = styled('input')`
     color: ${colors.black};
     padding: 20px 19px;
     font-size: ${parse(18)};
+    width: 100%;
     font-weight: bold;
+    ${props => (props.height ? `height: ${props.height}` : null)};
+    ${props => (props.margin ? `margin: ${props.margin}` : null)};
 `;
 
 export { StyledInput };
