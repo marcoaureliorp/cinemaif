@@ -1,17 +1,23 @@
 import React from 'react';
+import { withRouter } from 'react-router';
 import { Container, MenuItem, Icon } from './styles';
 
-function Menu(props) {
+// eslint-disable-next-line react/prop-types
+function Menu({ history }) {
     return (
         <Container>
-            <MenuItem>Filmes</MenuItem>
-            <MenuItem active>
-Sessões
+            {/* eslint-disable-next-line react/prop-types */}
+            <MenuItem active onClick={() => history.push('/')}>
+                Filmes
                 <Icon size={17} />
+            </MenuItem>
+            {/* eslint-disable-next-line react/prop-types */}
+            <MenuItem onClick={() => history.push('/sessoes')}>
+                Sessões
             </MenuItem>
             <MenuItem>Lançamentos</MenuItem>
         </Container>
     );
 }
 
-export default Menu;
+export default withRouter(Menu);
