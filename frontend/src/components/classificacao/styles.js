@@ -3,7 +3,8 @@ import { colors } from '../../config/theme';
 import { parse } from '../../util/styled-components/font-size';
 
 const Container = styled('span')`
-    position: relative;
+    position: ${props => (props.position ? props.position : 'relative')};
+    bottom : ${props => (props.bottom ? props.bottom : 'auto')};
     z-index: 10;
     width: auto;
     height: 37px;

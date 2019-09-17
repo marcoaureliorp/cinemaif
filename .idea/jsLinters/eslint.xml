@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="EslintConfiguration">
-    <custom-configuration-file used="true" path="C:\xampp\htdocs\cinemaif\frontend\.eslintrc.js" />
-    <additional-rules-dir value="C:\xampp\htdocs\cinemaif\frontend" />
+    <custom-configuration-file used="true" path="$PROJECT_DIR$/frontend/.eslintrc.js" />
   </component>
 </project>
