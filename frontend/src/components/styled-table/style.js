@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
@@ -16,7 +15,7 @@ const EditIcon = styled(FaPen)`
     display: none;
     
     &:hover {
-      color: ${colors.red};
+      color: ${colors.green};
     }
 `;
 const TrashIcon = styled(FaTrashAlt)`
@@ -42,11 +41,17 @@ const Table = styled(ReactTable)`
     
     .rt-thead {
         box-shadow: unset !important;
-        height: 40px;
+        //height: 40px;
         max-width: 100% !important;
         min-width: 100% !important;
+        background: ${colors.light_black};
+        border-radius: 25px 25px 0 0;
+        padding: 4px;
+        height: 55px;
+        display: flex;
         
         .rt-tr {
+          align-items: center;
             .rt-th {
                 background: transparent;
                 color: ${colors.white};
@@ -73,7 +78,7 @@ const Table = styled(ReactTable)`
     
     .rt-tbody {
         background: ${colors.white};
-        border-radius: 25px;
+        border-radius: 0 0 25px 25px;
         height: 100%; 
         max-width: 100% !important;
         min-width: 100% !important;
@@ -89,7 +94,7 @@ const Table = styled(ReactTable)`
                 display: flex;
                 
                 &.-even{
-                    background-color: ${colors.red};
+                    background-color: ${colors.more_light_grey};
                 }
                 
                 &:hover .rt-td{

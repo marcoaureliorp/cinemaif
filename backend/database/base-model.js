@@ -18,27 +18,6 @@ class BaseModel extends Model {
         return path.resolve(__dirname, '../app/models/');
     }
 
-    static get modifiers() {
-        return {
-            desativado(builder) {
-                builder.where('desativado', 0);
-            },
-        };
-    }
-
-    static getAction(action) {
-        switch (action) {
-            case 'insert':
-                return 'inserido';
-            case 'update':
-                return 'atualizado';
-            case 'delete':
-                return 'excluído';
-            default:
-                return 'no-action';
-        }
-    }
-
     $parseDatabaseJson(json) {
         /* eslint no-param-reassign: 0 */
         json = super.$parseDatabaseJson(json);

@@ -16,7 +16,7 @@ const Button = styled('div')`
             return '#eee;';
         }
         if (props.active) {
-            return colors.green;
+            return colors.light_black;
         }
         return colors.white;
     }};
@@ -59,7 +59,7 @@ const Button = styled('div')`
         if (props.separator) {
             return null;
         }
-        return colors.red;
+        return colors.light_black;
     }};
         color: ${(props) => {
         if (props.disabled) {

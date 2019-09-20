@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Pagination from '../pagination';
 
 import {
-    Table, EditIcon, TrashIcon
+    Table, EditIcon, TrashIcon,
 } from './style';
 import TableLoader from '../table-loader';
 
@@ -44,6 +44,7 @@ function StyledTable({
             sortable: false,
             resizable: false,
             width: '105',
+            name: 'edit',
         },
         {
             Header: props => 'Excluir',
@@ -51,6 +52,7 @@ function StyledTable({
             sortable: false,
             resizable: false,
             width: '105',
+            name: 'delete',
         },
     );
 
@@ -84,7 +86,7 @@ function StyledTable({
             previousText="<"
             nextText=">"
             ref={tableRef}
-            // onFetchData={handleData}
+            onFetchData={handleData}
             getTdProps={(state, rowInfo, column, instance) => ({
                 onClick: (e, handleOriginal) => {
                     if (column.id === 'submenu') {

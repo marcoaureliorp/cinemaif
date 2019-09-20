@@ -22,7 +22,7 @@ const getButtonKind = (props) => {
     }
 };
 
-const StyledButton = styled('div')`
+const StyledButton = styled('button')`
     padding: 18px 20px;
     font-size: ${parse(18)};
     font-weight: bold;

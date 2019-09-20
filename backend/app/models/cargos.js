@@ -6,10 +6,6 @@ class Cargos extends BaseModel {
         return 'cargos';
     }
 
-    static get labelName() {
-        return 'Cargo';
-    }
-
     static get idColumn() {
         return 'id';
     }

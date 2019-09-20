@@ -2,10 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { StyledButton } from './styles';
 
-function Button({ kind, label, children }) {
+function Button({
+    kind, label, children, ...props
+}) {
     const text = children || label;
     return (
-        <StyledButton kind={kind}>{text}</StyledButton>
+        <StyledButton kind={kind} {...props}>{text}</StyledButton>
     );
 }
 
