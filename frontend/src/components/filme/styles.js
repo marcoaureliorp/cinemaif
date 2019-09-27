@@ -8,6 +8,8 @@ const Container = styled('div')`
     height: 483px;
     display: flex;
     flex-direction: column;
+    margin-right: 22px;
+    margin-bottom: 40px;
 `;
 
 const Capa = styled('div')`

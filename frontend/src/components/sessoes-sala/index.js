@@ -8,10 +8,10 @@ const SessoesSala = ({ sala, tipos, horarios }) => (
     <Container>
         <ContainerTipo>
             <Sala>{sala}</Sala>
-            {tipos.map(item => <TipoSala>{item}</TipoSala>)}
+            {tipos.map((item, key) => <TipoSala key={`${key}_${item}`}>{item}</TipoSala>)}
         </ContainerTipo>
         <ContainerHorarios>
-            {horarios.map(item => <Horario>{item}</Horario>)}
+            {horarios.map((item, key) => <Horario key={`${key}_${item}`}>{item}</Horario>)}
         </ContainerHorarios>
     </Container>
 );

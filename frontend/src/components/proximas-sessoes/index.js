@@ -7,6 +7,8 @@ function ProximasSessoes(props) {
         <Container>
             <Title>Próximas Sessões</Title>
             <SessoesSidebar />
+            <SessoesSidebar />
+            <SessoesSidebar />
         </Container>
     );
 }

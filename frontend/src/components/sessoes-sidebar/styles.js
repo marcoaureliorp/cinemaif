@@ -6,6 +6,11 @@ const Container = styled('div')`
     display: flex;
     width: 100%;
     height: 60px;
+    margin-bottom: 20px;
+    
+    &:last-child {
+        margin-bottom: 0;
+    }
 `;
 
 const TextContainer = styled('div')`

@@ -1,6 +1,6 @@
 const express = require('express');
 
-const Genero = require('../models/genero');
+const Tipo = require('../models/tipo');
 
 const router = express.Router();
 
@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
     };
 
     try {
-        const result = await Genero.get(data);
+        const result = await Tipo.get(data);
 
         res.json(result);
     } catch (msg) {
@@ -27,16 +27,16 @@ router.get('/', async (req, res) => {
 });
 
 const save = async (req, res) => {
-    const { genero } = req.body;
+    const { tipo } = req.body;
 
-    if (req.params.id) genero.id = Number(req.params.id);
+    if (req.params.id) tipo.id = Number(req.params.id);
 
     try {
-        if (genero.id === undefined && genero.descricao.trim() === '') {
+        if (tipo.id === undefined && tipo.descricao.trim() === '') {
             throw 'Descrição inválida!';
         }
 
-        const result = await Genero.save(genero);
+        const result = await Tipo.save(tipo);
 
         if (result === true) {
             res.sendStatus(204);
@@ -60,7 +60,7 @@ router.delete('/', async (req, res) => {
     };
 
     try {
-        const result = await Genero.softDelete(data);
+        const result = await Tipo.softDelete(data);
 
         if (result) {
             res.sendStatus(204);
@@ -72,4 +72,4 @@ router.delete('/', async (req, res) => {
 });
 
 // return { select, save, softDelete };
-module.exports = app => app.use('/generos', router);
+module.exports = app => app.use('/tipos', router);
