@@ -2,8 +2,8 @@ import React from 'react';
 
 import { Switch, Route, Redirect } from 'react-router';
 
-import Home from '../pages/Home';
-import Sessoes from '../pages/Sessoes';
+import Home from '../pages/home';
+import Sessoes from '../pages/sessoes';
 import Generos from '../pages/generos';
 import Filme from '../pages/filme';
 

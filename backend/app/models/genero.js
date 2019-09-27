@@ -154,11 +154,10 @@ class Genero extends BaseModel {
         const genero = await this.query().select('*').where('genero.id', id)
             .first();
 
-        // if (genero && genero.id) {
-        //     genero.desativado = 1;
-        //     this.query().soft(genero)
-        //         .then();
-        // }
+        if (genero && genero.id) {
+            return this.query().softDelete(genero)
+                .then();
+        }
         throw 'Não foi possível excluir genero!';
     }
 }

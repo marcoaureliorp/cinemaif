@@ -32,6 +32,7 @@ function Generos(props) {
         },
     ];
 
+    // eslint-disable-next-line react/prop-types
     const makeForm = ({ handleSubmit }) => (
         <form onSubmit={handleSubmit}>
             <Field
@@ -53,18 +54,24 @@ function Generos(props) {
                     <StyledTable
                         headers={headers}
                         fireFetch={updateTable}
-                        // eslint-disable-next-line max-len
+                        // eslint-disable-next-line max-len,no-return-await
                         data_function={async ({ page, limit }) => await api.get('/generos', { params: { page, limit } })}
                         editFunction={({ original }) => {
 
                         }}
-                        clickHandler={(state, rowInfo, column, instance) => {
+                        clickHandler={async (state, rowInfo, column, instance) => {
                             if (column.name === 'edit') {
                                 setGenero(rowInfo.original);
                             }
 
                             if (column.name === 'delete') {
-                                console.log('delete');
+                                const { id } = rowInfo.original;
+
+                                const res = await api.delete('/generos', { params: { id } });
+
+                                if (res.status === 204) {
+                                    setUpdateTable(true);
+                                }
                             }
                         }}
                         loading={false}

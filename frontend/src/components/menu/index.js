@@ -15,6 +15,10 @@ function Menu({ history }) {
             <MenuItem onClick={() => history.push('/sessoes')}>
                 Sessões
             </MenuItem>
+            {/* eslint-disable-next-line react/prop-types */}
+            <MenuItem onClick={() => history.push('/generos')}>
+                Gêneros
+            </MenuItem>
             <MenuItem>Lançamentos</MenuItem>
         </Container>
     );
