@@ -1,9 +1,9 @@
 const path = require('path');
 const { BaseModel } = require('../../database/base-model');
 
-class Genero extends BaseModel {
+class Tipo extends BaseModel {
     static get tableName() {
-        return 'genero';
+        return 'tipo';
     }
 
     static get idColumn() {
@@ -32,9 +32,9 @@ class Genero extends BaseModel {
     //             relation: BaseModel.ManyToManyRelation,
     //             modelClass: FiliaisFuncionarios,
     //             join: {
-    //                 from: 'genero.id',
+    //                 from: 'tipo.id',
     //                 through: {
-    //                     from: 'filiais_funcionarios.genero',
+    //                     from: 'filiais_funcionarios.tipo',
     //                     to: 'filiais_funcionarios.funcionario',
     //                 },
     //                 to: 'funcionarios.id',
@@ -44,9 +44,9 @@ class Genero extends BaseModel {
     //             relation: BaseModel.ManyToManyRelation,
     //             modelClass: Filiais,
     //             join: {
-    //                 from: 'genero.id',
+    //                 from: 'tipo.id',
     //                 through: {
-    //                     from: 'filiais_funcionarios.genero',
+    //                     from: 'filiais_funcionarios.tipo',
     //                     to: 'filiais_funcionarios.filial',
     //                 },
     //                 to: 'filiais.id',
@@ -64,7 +64,7 @@ class Genero extends BaseModel {
     //             relation: BaseModel.BelongsToOneRelation,
     //             modelClass: SystemLogs,
     //             join: {
-    //                 from: 'genero.id',
+    //                 from: 'tipo.id',
     //                 to: 'system_logs.referencia',
     //             },
     //         },
@@ -72,7 +72,7 @@ class Genero extends BaseModel {
     //             relation: BaseModel.BelongsToOneRelation,
     //             modelClass: SystemLogs,
     //             join: {
-    //                 from: 'genero.id',
+    //                 from: 'tipo.id',
     //                 to: 'system_logs.referencia',
     //             },
     //         },
@@ -89,12 +89,12 @@ class Genero extends BaseModel {
 
         // query.eagerAlgorithm(this.JoinEagerAlgorithm)
         //     .eager(`
-        //             [inserted(genero, onlyInsert).funcionario(withOutPass),
-        //             updated(genero, lastUpdate).funcionario(withOutPass)]
+        //             [inserted(tipo, onlyInsert).funcionario(withOutPass),
+        //             updated(tipo, lastUpdate).funcionario(withOutPass)]
         //         `);
 
         if (id !== 0) {
-            query.where('genero.id', id);
+            query.where('tipo.id', id);
         }
 
         if (search !== null) {
@@ -123,14 +123,14 @@ class Genero extends BaseModel {
         };
     }
 
-    static async save(genero) {
-        if (genero.id) {
-            const genero_database = await this.query().select('*').where('id', genero.id).first();
+    static async save(tipo) {
+        if (tipo.id) {
+            const genero_database = await this.query().select('*').where('id', tipo.id).first();
             if (genero_database && genero_database.id) {
                 // eslint-disable-next-line no-param-reassign
-                genero = { ...genero_database, ...genero };
+                tipo = { ...genero_database, ...tipo };
 
-                return this.query().upsert(genero, genero_database)
+                return this.query().upsert(tipo, genero_database)
                     .then((result) => {
                         if (result) {
                             return result;
@@ -138,10 +138,10 @@ class Genero extends BaseModel {
                         return true;
                     });
             }
-            throw 'Não foi possível atualizar genero!';
+            throw 'Não foi possível atualizar tipo!';
         }
 
-        return this.query().upsert(genero)
+        return this.query().upsert(tipo)
             .then((result) => {
                 if (result) {
                     return result;
@@ -151,15 +151,15 @@ class Genero extends BaseModel {
     }
 
     static async softDelete({ id }) {
-        const genero = await this.query().select('*').where('genero.id', id)
+        const tipo = await this.query().select('*').where('tipo.id', id)
             .first();
 
-        if (genero && genero.id) {
-            return this.query().delete().where('id', genero.id)
+        if (tipo && tipo.id) {
+            return this.query().delete().where('id', tipo.id)
                 .then();
         }
-        throw 'Não foi possível excluir genero!';
+        throw 'Não foi possível excluir tipo!';
     }
 }
 
-module.exports = Genero;
+module.exports = Tipo;

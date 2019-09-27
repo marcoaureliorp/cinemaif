@@ -9,11 +9,11 @@ import Button from '../../components/button';
 import api from '../../services/api';
 
 
-function Generos(props) {
-    const [genero, setGenero] = useState({});
+function Tipos(props) {
+    const [tipo, setTipo] = useState({});
     const [updateTable, setUpdateTable] = useState(false);
 
-    const initialValues = genero.id ? genero : {
+    const initialValues = tipo.id ? tipo : {
         descricao: '',
     };
 
@@ -25,9 +25,9 @@ function Generos(props) {
 
     const headers = [
         {
-            name: 'Gênero',
+            name: 'Tipo',
             accessor: 'descricao',
-            value: 'Gênero',
+            value: 'Tipo',
         },
     ];
 
@@ -37,7 +37,7 @@ function Generos(props) {
             <Field
                 component={Input}
                 name="descricao"
-                placeholder="Gênero"
+                placeholder="Tipo"
             />
             <ButtonGroup margin="21px 0 0 0">
                 <Button label="Cancelar" kind="cancel" type="cancel" />
@@ -47,26 +47,26 @@ function Generos(props) {
     );
 
     return (
-        <Page title="Gêneros">
+        <Page title="Tipos">
             <Container>
                 <ContainerTable>
                     <StyledTable
                         headers={headers}
                         fireFetch={updateTable}
                         // eslint-disable-next-line max-len,no-return-await
-                        data_function={async ({ page, limit }) => await api.get('/generos', { params: { page, limit } })}
+                        data_function={async ({ page, limit }) => await api.get('/tipos', { params: { page, limit } })}
                         editFunction={({ original }) => {
 
                         }}
                         clickHandler={async (state, rowInfo, column, instance) => {
                             if (column.name === 'edit') {
-                                setGenero(rowInfo.original);
+                                setTipo(rowInfo.original);
                             }
 
                             if (column.name === 'delete') {
                                 const { id } = rowInfo.original;
 
-                                const res = await api.delete('/generos', { params: { id } });
+                                const res = await api.delete('/tipos', { params: { id } });
 
                                 if (res.status === 204) {
                                     setUpdateTable(true);
@@ -82,11 +82,11 @@ function Generos(props) {
                         initialValues={initialValues}
                         onSubmit={async (values, { setSubmitting, resetForm, ...rest }) => {
                             const genero_to_database = { ...values };
-                            const res = await api.post('/generos', { genero: genero_to_database });
+                            const res = await api.post('/tipos', { tipo: genero_to_database });
 
                             if (res.status === 200) {
                                 resetForm();
-                                setGenero({});
+                                setTipo({});
                                 setUpdateTable(true);
                             }
                         }}
@@ -99,4 +99,4 @@ function Generos(props) {
     );
 }
 
-export default Generos;
+export default Tipos;

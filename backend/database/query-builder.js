@@ -123,13 +123,6 @@ class QueryBuilder extends QueryBuilderObjection {
         }
         throw Error('Id é obrigatório!');
     }
-
-    softDelete(model) {
-        if (model.id) {
-            return this.delete().where('id', model.id);
-        }
-        throw Error('Id é obrigatório!');
-    }
 }
 
 module.exports = { QueryBuilder };
