@@ -3,9 +3,16 @@ import { Container } from './style';
 import Page from '../../components/page';
 import Filme from '../../components/filme';
 
-function Home() {
+function Home({ history }) {
     return (
-        <Page title="Lançamentos">
+        <Page
+            title="Lançamentos"
+            button={{
+                kind: 'add',
+                label: 'Adicionar Filme',
+            }}
+            history={history}
+        >
             <Container>
                 <Filme />
                 <Filme />

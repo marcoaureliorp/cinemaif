@@ -14,6 +14,11 @@ const getButtonKind = (props) => {
                 background-color: ${colors.red};
                 color: ${colors.white};
             `;
+        case 'add':
+            return `
+                background-color: ${colors.blue_grey};
+                color: ${colors.light_grey};
+            `;
         default:
             return `
                 background-color: ${colors.red};

@@ -1,11 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Container } from './styles';
+import { Container, ContainerTitle } from './styles';
+import Button from '../button';
 
-function Page({ children, title }) {
+function Page({
+    // eslint-disable-next-line react/prop-types
+    children, title, history, ...props
+}) {
     return (
         <Container>
-            <h2>{title}</h2>
+            <ContainerTitle>
+                <h2>{title}</h2>
+                {props.button && (
+                    <Button
+                        kind={props.button.kind}
+                        label={props.button.label}
+                        onClick={() => history.push('/filme')}
+                    />
+                )}
+            </ContainerTitle>
             {children}
         </Container>
     );
@@ -17,6 +30,7 @@ Page.propTypes = {
         PropTypes.node,
     ]),
     title: PropTypes.string.isRequired,
+    button: PropTypes.object,
 };
 
 Page.defaultProps = {

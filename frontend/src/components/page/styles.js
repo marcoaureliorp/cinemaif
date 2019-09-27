@@ -7,13 +7,19 @@ const Container = styled('div')`
     flex-direction: column;
     width: 100%;
     overflow: auto;
+`;
+
+const ContainerTitle = styled('div')`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
     
     h2 {
         font-weight: bold;
         font-size: 30px;
         color: ${colors.white}; 
-        margin-bottom: 40px;
     }
 `;
 
-export { Container };
+export { Container, ContainerTitle };
