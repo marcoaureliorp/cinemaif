@@ -23,6 +23,14 @@ function Menu({ history }) {
             <MenuItem onClick={() => history.push('/tipos')}>
                 Tipos
             </MenuItem>
+            {/* eslint-disable-next-line react/prop-types */}
+            <MenuItem onClick={() => history.push('/login')}>
+                Login
+            </MenuItem>
+            {/* eslint-disable-next-line react/prop-types */}
+            <MenuItem onClick={() => history.push('/usuario')}>
+                Cadastrar Usuário
+            </MenuItem>
             <MenuItem>Lançamentos</MenuItem>
         </Container>
     );
