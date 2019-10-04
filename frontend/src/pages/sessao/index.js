@@ -1,37 +1,44 @@
-import React, { useState, useEffect } from 'react';
-import moment from 'moment';
+import React from 'react';
+import { Formik, Field } from 'formik';
 import Page from '../../components/page';
-import { Container, StyledCalendar } from './styles';
+import { Container } from './styles';
+import Input from '../../components/controlled-input';
 
-const dateAlreadyClicked = (dates, date) => dates.some(d => moment(date).isSame(moment(d), 'day'));
-const datesExcept = (dates, date) => dates.filter(d => !moment(date).isSame(moment(d), 'day'));
 
 function Sessao(props) {
-    const [dates, setDates] = useState([]);
-
-    console.log(dates);
-
-    const onClickDay = (date) => {
-        // if day is already clicked, remove it from state
-        if (dateAlreadyClicked(dates, date)) setDates(datesExcept(dates, date));
-        else setDates([...dates, date]);
-    };
-
-    const tileClassName = ({ date }) => {
-        const classNames = ['normal'];
-        if (dateAlreadyClicked(dates, date)) return ['active', ...classNames];
-        return classNames;
-    };
-
-
+    function makeForm({ handleSubmit, ...rest }) {
+        console.log(rest);
+        return (
+            <form onSubmit={handleSubmit}>
+                <Field
+                    name="dias"
+                    id="dias"
+                    placeholder="Dias da sessão"
+                    type="multiple_date"
+                    component={Input}
+                />
+                <Field
+                    name="preco"
+                    id="preco"
+                    placeholder="Preço"
+                    type="pricing"
+                    component={Input}
+                />
+                <Field
+                    names={['inicio', 'fim']}
+                    ids={['inicio', 'fim']}
+                    type="date_range"
+                    component={Input}
+                />
+            </form>
+        );
+    }
     return (
         <Page title="Sessão">
             <Container>
-                <StyledCalendar
-                    isOpen
-                    tileClassName={tileClassName}
-                    onClickDay={onClickDay}
-                />
+                <Formik>
+                    {makeForm}
+                </Formik>
             </Container>
         </Page>
     );

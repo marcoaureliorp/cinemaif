@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Input from '../form-components/input';
+import MultipleDate from '../form-components/multiple-date';
+import Pricing from '../form-components/pricing';
+import TimePicker from '../form-components/time-picker';
 // import DatePicker from '../form-components/date-picker';
 // import Select from '../form-components/select';
 // import StyledRadioGroup from '../form-components/styled-radio-group';
@@ -26,6 +29,7 @@ function ControlledInput({
 
     const general_events = {
         onChange(event) {
+            console.log(event);
             if (onChange) {
                 onChange(event);
             }
@@ -34,7 +38,24 @@ function ControlledInput({
                 field.onChange(event);
             }
 
-            if (type === 'date' || type === 'select' || type === 'input_radio') form.setFieldValue(name, event);
+            if (type === 'date_range') {
+                if (event) {
+                    const field_name = event[0] !== undefined ? props.names[0] : props.names[1];
+                    const field_value = event[0] !== undefined ? event[0] : event[1];
+
+                    form.setFieldValue(field_name, field_value);
+                } else {
+                    props.names.map(field_name => form.setFieldValue(field_name, null));
+                }
+            }
+
+            if (
+                type === 'date'
+                || type === 'select'
+                || type === 'input_radio'
+                || type === 'multiple_date'
+                || type === 'pricing'
+            ) form.setFieldValue(name, event);
         },
         onBlur(event) {
             if (onBlur) {
@@ -45,7 +66,11 @@ function ControlledInput({
                 field.onBlur(event);
             }
 
-            if (type === 'date' || type === 'select' || type === 'input_radio') form.setFieldTouched(field.name, true);
+            if (type === 'date'
+                || type === 'select'
+                || type === 'input_radio'
+                || type === 'multiple_date'
+            ) form.setFieldTouched(field.name, true);
         },
         onFocus(event) {
             if (onFocus) {
@@ -63,7 +88,7 @@ function ControlledInput({
         height,
         margin,
         name,
-        value,
+        // value,
         id,
         background_color,
         ...props,
@@ -85,12 +110,26 @@ function ControlledInput({
     return (
         <>
             {(() => {
-                if (type === 'date') {
-                    // return (
-                    //     <DatePicker
-                    //         {...field_props}
-                    //     />
-                    // );
+                if (type === 'multiple_date') {
+                    return (
+                        <MultipleDate
+                            {...field_props}
+                        />
+                    );
+                }
+                if (type === 'pricing') {
+                    return (
+                        <Pricing
+                            {...field_props}
+                        />
+                    );
+                }
+                if (type === 'date_range') {
+                    return (
+                        <TimePicker
+                            {...field_props}
+                        />
+                    );
                 }
 
                 if (type === 'input_radio') {
