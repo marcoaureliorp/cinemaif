@@ -40,6 +40,7 @@ const DateCard = styled('div')`
 const StyledCalendar = styled(ReactCalendar)`    
     position: absolute;
     top: 100%;
+    z-index: 1;
     left: 0;
     
     .react-calendar__tile--active {

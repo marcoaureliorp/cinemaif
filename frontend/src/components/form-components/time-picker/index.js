@@ -1,16 +1,19 @@
 import React from 'react';
-import { StyledTimeRangePicker } from './styles';
+import { StyledRCTimePicker, InputStyle } from './styles';
 
-function TimePicker({ ...props }) {
+function TimePicker({onChange,...props}) {
     return (
-        <StyledTimeRangePicker
-            clearAriaLabel="Limpar"
-            locale="pt-BR"
-            format="HH:mm"
-            disableClock
-            secondPlaceholder="mm"
-            {...props}
-        />
+        <>
+            <InputStyle />
+            <StyledRCTimePicker
+                allowEmpty={false}
+                showSecond={false}
+                onChange={({_d}) => {
+                    if(onChange)onChange(_d);
+                }}
+                {...props}
+            />
+        </>
     );
 }
 
