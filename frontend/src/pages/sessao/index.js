@@ -117,7 +117,11 @@ function Sessao(props) {
                     />
                 </ContainerTable>
                 <ContainerEditor>
-                    <Formik>
+                    <Formik
+                        initialValues={{
+                            inicio: ''
+                        }}
+                    >
                         {makeForm}
                     </Formik>
                 </ContainerEditor>
