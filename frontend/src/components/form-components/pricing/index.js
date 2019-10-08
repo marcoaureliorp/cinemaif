@@ -8,7 +8,6 @@ function Pricing({ placeholder, onChange, ...rest }) {
             allowNegative={false}
             prefix="R$ "
             decimalScale={2}
-            thousandSpacing={3}
             thousandSeparator=" "
             thousandsGroupStyle="thousand"
             placeholder={placeholder}

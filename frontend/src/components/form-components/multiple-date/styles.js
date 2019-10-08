@@ -10,6 +10,7 @@ const Container = styled('div')`
     padding: ${props => (props.padding ? '19px' : '5px')};
     font-size: ${parse(18)};
     display: flex;
+    max-width: 100%;
     position: relative;
     align-items: center;
     width: 100%;
@@ -17,6 +18,15 @@ const Container = styled('div')`
     height: 64px;
     ${props => (props.margin ? `margin: ${props.margin}` : null)};
 `;
+
+const ContainerCards = styled('div')`
+    width: 100%;
+    display: flex;
+    height: 100%;
+    max-width: 100%;
+    overflow: hidden;
+`;
+
 
 const DateCard = styled('div')`
     width: fit-content;
@@ -42,6 +52,8 @@ const StyledCalendar = styled(ReactCalendar)`
     top: 100%;
     z-index: 1;
     left: 0;
+    max-width: 100%;
+    overflow: hidden;
     
     .react-calendar__tile--active {
         background-color: white;
@@ -60,4 +72,6 @@ const StyledCalendar = styled(ReactCalendar)`
     }
 `;
 
-export { Container, DateCard, StyledCalendar };
+export {
+    Container, DateCard, StyledCalendar, ContainerCards,
+};
