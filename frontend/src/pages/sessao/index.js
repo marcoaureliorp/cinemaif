@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Formik, Field } from 'formik';
+import moment from 'moment';
 import Page from '../../components/page';
 import { Container } from './styles';
 import Input from '../../components/controlled-input';
@@ -7,11 +8,26 @@ import TimePicker from '../../components/form-components/time-picker/index';
 import { ContainerEditor, ContainerTable } from '../generos/style';
 import StyledTable from '../../components/styled-table';
 import api from '../../services/api';
-import {ButtonGroup} from "../../components/button/styles";
-import Button from "../../components/button";
+import { ButtonGroup } from '../../components/button/styles';
+import Button from '../../components/button';
+import { parser } from '../../util/styled-components/select-parser';
 
 
 function Sessao(props) {
+    const [tipos, setTipos] = useState([]);
+
+    useEffect(() => {
+        async function getTipos() {
+            const result = await api.get('/tipos');
+            if (result.data.results) {
+                const formatedTipos = parser('descricao', 'id', result.data.results);
+                setTipos(formatedTipos);
+            }
+        }
+
+        getTipos();
+    }, []);
+
     const headers = [
         {
             name: 'Tipo',
@@ -34,6 +50,14 @@ function Sessao(props) {
         return (
             <form onSubmit={handleSubmit}>
                 <Field
+                    name="dias"
+                    id="dias"
+                    margin="0 0 15px 0"
+                    placeholder="Dias da sessão"
+                    type="multiple_date"
+                    component={Input}
+                />
+                <Field
                     name="sala"
                     id="sala"
                     margin="0 0 15px 0"
@@ -47,6 +71,7 @@ function Sessao(props) {
                     id="tipo"
                     placeholder="Tipo da Sessão"
                     type="select"
+                    options={tipos}
                     component={Input}
                 />
                 <Field
@@ -68,17 +93,9 @@ function Sessao(props) {
                 <Field
                     name="fim"
                     ids="fim"
-                    margin="0 0 15px 0"
                     type="time_picker"
                     component={Input}
                     placeholder="Final da sessão"
-                />
-                <Field
-                    name="dias"
-                    id="dias"
-                    placeholder="Dias da sessão"
-                    type="multiple_date"
-                    component={Input}
                 />
                 <ButtonGroup margin="21px 0 0 0">
                     <Button label="Cancelar" kind="cancel" type="cancel" />
@@ -119,7 +136,7 @@ function Sessao(props) {
                 <ContainerEditor>
                     <Formik
                         initialValues={{
-                            inicio: ''
+                            inicio: null,
                         }}
                     >
                         {makeForm}

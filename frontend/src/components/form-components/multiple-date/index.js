@@ -1,12 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import moment from 'moment';
-import { Container, DateCard, StyledCalendar } from './styles';
+import { Container, DateCard, StyledCalendar, ContainerCards } from './styles';
 import useClickOutside from './hook';
 
 const dateAlreadyClicked = (dates, date) => dates.some(d => moment(date).isSame(moment(d), 'day'));
 const datesExcept = (dates, date) => dates.filter(d => !moment(date).isSame(moment(d), 'day'));
 
-function MultipleDate({ onChange, onBlur, placeholder }) {
+function MultipleDate({ onChange, onBlur, placeholder, ...rest }) {
     const [dates, setDates] = useState([]);
     const [calendarOpen, setCalendarOpen] = useState(false);
     const inputRef = useRef(null);
@@ -36,10 +36,14 @@ function MultipleDate({ onChange, onBlur, placeholder }) {
     }
 
     return (
-        <Container ref={inputRef} padding={dates.length === 0} onClick={handleClick}>
-            {dates.length === 0 ? placeholder : formatedDates(dates).map(date => (
-                <DateCard>{date}</DateCard>
-            ))}
+        <Container ref={inputRef} padding={dates.length === 0} {...rest} onClick={handleClick}>
+            {dates.length === 0 ? placeholder : (
+                <ContainerCards>
+                    {formatedDates(dates).map(date => (
+                        <DateCard key={date}>{date}</DateCard>
+                    ))}
+                </ContainerCards>
+            )}
             {calendarOpen && (
                 <StyledCalendar
                     tileClassName={tileClassName}
