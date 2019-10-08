@@ -10,8 +10,8 @@ const Container = styled('div')`
 `;
 
 const ContainerPreview = styled('div')`
-    width: 880px;
-    height: 620px;
+    width: 60%;
+    height: 100%;
 `;
 
 const FilmePreview = styled('div')`
@@ -30,7 +30,7 @@ const Left = styled('div')`
 
 
 const ContainerEditor = styled('div')`
-    width: 450px;
+    width: 40%;
     height: 100%;
     display: flex;
     justify-content: center;

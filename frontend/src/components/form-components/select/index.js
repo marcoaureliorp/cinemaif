@@ -114,7 +114,7 @@ Select.defaultProps = {
     isDisabled: false,
     isLoading: false,
     isSearchable: true,
-    loadingMessage: () => 'Carregando eesultados...',
+    loadingMessage: () => 'Carregando resultados...',
     noOptionsMessage: () => 'Nenhum resultado encontrado',
     id: null,
     onChange: null,

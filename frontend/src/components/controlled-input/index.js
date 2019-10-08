@@ -5,7 +5,7 @@ import MultipleDate from '../form-components/multiple-date';
 import Pricing from '../form-components/pricing';
 import TimePicker from '../form-components/time-picker';
 // import DatePicker from '../form-components/date-picker';
-// import Select from '../form-components/select';
+import Select from '../form-components/select';
 // import StyledRadioGroup from '../form-components/styled-radio-group';
 
 function ControlledInput({
@@ -29,7 +29,6 @@ function ControlledInput({
 
     const general_events = {
         onChange(event) {
-            console.log(event);
             if (onChange) {
                 onChange(event);
             }
@@ -88,7 +87,7 @@ function ControlledInput({
         height,
         margin,
         name,
-        // value,
+        value,
         id,
         background_color,
         ...props,
@@ -103,7 +102,7 @@ function ControlledInput({
         field_props.type = type;
     }
 
-    if (type === 'input_radio') {
+    if (type === 'input_radio' || type === 'select') {
         field_props.options = options;
     }
 
@@ -141,11 +140,11 @@ function ControlledInput({
                 }
 
                 if (type === 'select') {
-                    // return (
-                    //     <Select
-                    //         {...field_props}
-                    //     />
-                    // );
+                    return (
+                        <Select
+                            {...field_props}
+                        />
+                    );
                 }
 
                 return (
