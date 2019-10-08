@@ -37,23 +37,13 @@ function ControlledInput({
                 field.onChange(event);
             }
 
-            if (type === 'date_range') {
-                if (event) {
-                    const field_name = event[0] !== undefined ? props.names[0] : props.names[1];
-                    const field_value = event[0] !== undefined ? event[0] : event[1];
-
-                    form.setFieldValue(field_name, field_value);
-                } else {
-                    props.names.map(field_name => form.setFieldValue(field_name, null));
-                }
-            }
-
             if (
                 type === 'date'
                 || type === 'select'
                 || type === 'input_radio'
                 || type === 'multiple_date'
                 || type === 'pricing'
+                || type === 'time_picker'
             ) form.setFieldValue(name, event);
         },
         onBlur(event) {
@@ -69,6 +59,7 @@ function ControlledInput({
                 || type === 'select'
                 || type === 'input_radio'
                 || type === 'multiple_date'
+                || type === 'time_picker'
             ) form.setFieldTouched(field.name, true);
         },
         onFocus(event) {
@@ -123,7 +114,7 @@ function ControlledInput({
                         />
                     );
                 }
-                if (type === 'date_range') {
+                if (type === 'time_picker') {
                     return (
                         <TimePicker
                             {...field_props}
