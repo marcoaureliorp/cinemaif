@@ -5,7 +5,6 @@ import Page from '../../components/page';
 import {
     Container, ContainerPreview, ContainerEditor, FilmePreview, Left, Title, Gender, Duration, Right,
 } from './style';
-import Input from '../../components/form-components/input';
 import ControlledInput from '../../components/controlled-input';
 import { ButtonGroup } from '../../components/button/styles';
 import Button from '../../components/button';
@@ -17,10 +16,8 @@ import { colors } from '../../config/theme';
 import { parser } from '../../util/styled-components/select-parser';
 
 function Filme(props) {
-    const [titulo, setTitulo] = useState('Titulo do Filme');
     const [arrayClassificacao, setArrayClassificacao] = useState([]);
     const [arrayGeneros, setArrayGeneros] = useState([]);
-    const [sinopse, setSinopse] = useState('Sinopse');
 
     const classificacaoBackgroundList = [
         {
@@ -61,7 +58,6 @@ function Filme(props) {
     }, []);
 
     const makeForm = ({ handleSubmit, values, ...rest }) => {
-        console.log(values);
         return (
             <form onSubmit={handleSubmit}>
                 <Container>
@@ -162,12 +158,25 @@ function Filme(props) {
                 }}
                 onSubmit={async (values, { setSubmitting, resetForm, ...rest }) => {
                     const filme_to_database = { ...values };
-                    console.log('dados', filme_to_database);
-                    // const res = await api.post('/filmes', { filme: filme_to_database });
 
-                    // if (res.status === 200) {
-                    //     resetForm();
-                    // }
+                    filme_to_database.classificacao = filme_to_database.classificacao.value;
+
+                    const generos = filme_to_database.generos.map(item => item.value);
+                    delete filme_to_database.generos;
+
+                    filme_to_database.duracao = Moment(filme_to_database.duracao).format('HH:mm');
+                    filme_to_database.capa = filme_to_database.foto.path;
+                    delete filme_to_database.foto;
+
+                    const res = await api.post('/filmes', { filme: filme_to_database });
+
+                    if (res.status === 200) {
+                        if (generos.length > 0) {
+                            // eslint-disable-next-line max-len
+                            generos.forEach(item => api.post('/filmes_generos', { filme_genero: { filme_id: res.data.id, genero_id: item } }));
+                        }
+                        resetForm();
+                    }
                 }}
             >
                 {makeForm}
