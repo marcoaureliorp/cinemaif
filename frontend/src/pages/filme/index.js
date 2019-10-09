@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Formik, Field } from 'formik';
+import Moment from 'moment';
 import Page from '../../components/page';
 import {
     Container, ContainerPreview, ContainerEditor, FilmePreview, Left, Title, Gender, Duration, Right,
@@ -17,11 +18,8 @@ import { parser } from '../../util/styled-components/select-parser';
 
 function Filme(props) {
     const [titulo, setTitulo] = useState('Titulo do Filme');
-    const [classificacao, setClassificacao] = useState('');
     const [arrayClassificacao, setArrayClassificacao] = useState([]);
-    const [generos, setGeneros] = useState('Gêneros');
     const [arrayGeneros, setArrayGeneros] = useState([]);
-    const [duracao, setDuracao] = useState('Duração');
     const [sinopse, setSinopse] = useState('Sinopse');
 
     const classificacaoBackgroundList = [
@@ -92,25 +90,26 @@ function Filme(props) {
                                     margin="calc(-37px / 2) 0 0 0"
                                     component={ControlledUploadFile}
                                 />
-                                <Title>{titulo}</Title>
-                                <Gender>{listaGeneros.join(', ')}</Gender>
-                                <Duration>{duracao}</Duration>
+                                <Title>{values.titulo !== '' ? values.titulo : 'Título'}</Title>
+                                <Gender>{listaGeneros.length > 0 ? listaGeneros.join(', ') : 'Gêneros'}</Gender>
+                                <Duration>{values.duracao && values.duracao._d ? Moment(values.duracao._d).format('HH:mm') : 'Duração'}</Duration>
                             </Left>
-                            <Right>{sinopse}</Right>
+                            <Right>{values.sinopse !== '' ? values.sinopse : 'Sinopse'}</Right>
                         </FilmePreview>
                     </ContainerPreview>
                     <ContainerEditor>
-                        <Input
+                        <Field
                             name="titulo"
                             margin="0 0 19px 0"
                             placeholder="Título do filme"
-                            onChange={text => setTitulo(text.target.value)}
+                            component={ControlledInput}
                         />
                         <Field
                             name="duracao"
+                            id="duracao"
                             margin="0 0 19px 0"
                             placeholder="Duração do filme"
-                            type="date_range"
+                            type="time_picker"
                             component={ControlledInput}
                         />
                         <Field
@@ -138,12 +137,12 @@ function Filme(props) {
                                 }
                             }}
                         />
-                        <Input
+                        <Field
                             name="sinopse"
                             margin="0 0 19px 0"
                             height="375px"
                             placeholder="Sinopse do filme"
-                            onChange={text => setSinopse(text.target.value)}
+                            component={ControlledInput}
                         />
                         <ButtonGroup>
                             <Button kind="cancel" label="Cancelar" />
@@ -158,7 +157,18 @@ function Filme(props) {
     return (
         <Page title="Cadastro de Filmes">
             <Formik
-                initialValues={{ classificacao: '', generos: [] }}
+                initialValues={{
+                    classificacao: '', generos: [], duracao: null, titulo: '', foto: '', sinopse: '',
+                }}
+                onSubmit={async (values, { setSubmitting, resetForm, ...rest }) => {
+                    const filme_to_database = { ...values };
+                    console.log('dados', filme_to_database);
+                    // const res = await api.post('/filmes', { filme: filme_to_database });
+
+                    // if (res.status === 200) {
+                    //     resetForm();
+                    // }
+                }}
             >
                 {makeForm}
             </Formik>
