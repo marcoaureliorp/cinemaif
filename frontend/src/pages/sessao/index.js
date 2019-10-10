@@ -4,7 +4,6 @@ import moment from 'moment';
 import Page from '../../components/page';
 import { Container } from './styles';
 import Input from '../../components/controlled-input';
-import TimePicker from '../../components/form-components/time-picker/index';
 import { ContainerEditor, ContainerTable } from '../generos/style';
 import StyledTable from '../../components/styled-table';
 import api from '../../services/api';
@@ -172,6 +171,41 @@ function Sessao(props) {
                     <Formik
                         initialValues={{
                             inicio: null,
+                            fim: null,
+                            dias: [],
+                            sala: '',
+                            tipo: '',
+                            preco: '',
+                        }}
+                        onSubmit={(values) => {
+                            const sessoes_to_save = values.dias.map((day) => {
+                                const new_day = moment(day).format('DD/MM/YYYY');
+                                const inicio = moment(values.inicio._d).format('HH:mm:00');
+                                const final = moment(values.inicio._d).format('HH:mm:00');
+
+                                const new_inicio = `${new_day} ${inicio}`;
+                                const new_final = `${new_day} ${final}`;
+
+                                return {
+                                    inicio: new_inicio,
+                                    fim: new_final,
+                                    preco: values.preco,
+                                    tipo_id: values.tipo.value,
+                                    sala_id: values.sala.value,
+                                    filme_id: 1,
+                                };
+                            });
+
+                            async function save(sessoes) {
+                                const result = await api.post('sessoes', {
+                                    params: {
+                                        sessoes,
+                                    },
+                                });
+                                console.log(result);
+                            }
+
+                            save(sessoes_to_save);
                         }}
                     >
                         {makeForm}

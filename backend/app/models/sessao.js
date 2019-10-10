@@ -94,32 +94,34 @@ class Sessao extends BaseModel {
         };
     }
 
-    static async save(tipo) {
-        // TODO fazer
-        if (tipo.id) {
-            const genero_database = await this.query().select('*').where('id', tipo.id).first();
-            if (genero_database && genero_database.id) {
-                // eslint-disable-next-line no-param-reassign
-                tipo = { ...genero_database, ...tipo };
+    static async save(sessoes) {
+        async function upsertSessao(sessao) {
+            return new Promise(async (resolve, reject) => {
+                const sessao_database = this.query().select('*')
+                    .where('inicio', sessao.inicio)
+                    .where('fim', sessao.fim);
 
-                return this.query().upsert(tipo, genero_database)
-                    .then((result) => {
-                        if (result) {
-                            return result;
-                        }
-                        return true;
-                    });
-            }
-            throw 'Não foi possível atualizar tipo!';
+
+            });
         }
 
-        return this.query().upsert(tipo)
-            .then((result) => {
-                if (result) {
-                    return result;
-                }
-                return true;
-            });
+        const result = Promise.all(sessoes.map(sessao => upsertSessao(sessao)));
+
+        process.exit();
+
+        // if (genero_database && genero_database.id) {
+        //     // eslint-disable-next-line no-param-reassign
+        //     tipo = { ...genero_database, ...tipo };
+        //
+        //     return this.query().upsert(tipo, genero_database)
+        //         .then((result) => {
+        //             if (result) {
+        //                 return result;
+        //             }
+        //             return true;
+        //         });
+        // }
+        // throw 'Não foi possível atualizar tipo!';
     }
 
     static async softDelete({ id }) {

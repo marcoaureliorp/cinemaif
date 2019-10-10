@@ -30,17 +30,10 @@ router.get('/', async (req, res) => {
 });
 
 const save = async (req, res) => {
-    // TODO fazer
-    const { cargo } = req.body;
-
-    if (req.params.id) cargo.id = Number(req.params.id);
+    const { sessoes } = req.body;
 
     try {
-        if (cargo.id === undefined && cargo.descricao.trim() === '') {
-            throw 'Descrição inválida!';
-        }
-
-        const result = await Sessao.save(cargo);
+        const result = await Sessao.save(sessoes);
 
         if (result === true) {
             res.sendStatus(204);
