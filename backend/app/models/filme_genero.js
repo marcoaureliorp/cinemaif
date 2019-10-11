@@ -21,64 +21,6 @@ class FilmeGenero extends BaseModel {
         };
     }
 
-    // static get relationMappings() {
-    //     /* eslint import/no-dynamic-require: 0 */
-    //     const FiliaisFuncionarios = require(path.resolve(this.modelPaths, 'filiais-funcionarios.js'));
-    //     const Filiais = require(path.resolve(this.modelPaths, 'filiais.js'));
-    //     const SystemLogs = require(path.resolve(this.modelPaths, 'system-logs.js'));
-    //
-    //     return {
-    //         funcionario_cargos: {
-    //             relation: BaseModel.ManyToManyRelation,
-    //             modelClass: FiliaisFuncionarios,
-    //             join: {
-    //                 from: 'filme.id',
-    //                 through: {
-    //                     from: 'filiais_funcionarios.filme',
-    //                     to: 'filiais_funcionarios.funcionario',
-    //                 },
-    //                 to: 'funcionarios.id',
-    //             },
-    //         },
-    //         filial_cargo: {
-    //             relation: BaseModel.ManyToManyRelation,
-    //             modelClass: Filiais,
-    //             join: {
-    //                 from: 'filme.id',
-    //                 through: {
-    //                     from: 'filiais_funcionarios.filme',
-    //                     to: 'filiais_funcionarios.filial',
-    //                 },
-    //                 to: 'filiais.id',
-    //             },
-    //         },
-    //         system_logs: {
-    //             relation: BaseModel.HasManyRelation,
-    //             modelClass: SystemLogs,
-    //             join: {
-    //                 from: 'feedbacks.id',
-    //                 to: 'system_logs.referencia',
-    //             },
-    //         },
-    //         inserted: {
-    //             relation: BaseModel.BelongsToOneRelation,
-    //             modelClass: SystemLogs,
-    //             join: {
-    //                 from: 'filme.id',
-    //                 to: 'system_logs.referencia',
-    //             },
-    //         },
-    //         updated: {
-    //             relation: BaseModel.BelongsToOneRelation,
-    //             modelClass: SystemLogs,
-    //             join: {
-    //                 from: 'filme.id',
-    //                 to: 'system_logs.referencia',
-    //             },
-    //         },
-    //     };
-    // }
-
     static async get({
         id,
         limit,
@@ -86,12 +28,6 @@ class FilmeGenero extends BaseModel {
         page,
     }) {
         const query = this.query().select();
-
-        // query.eagerAlgorithm(this.JoinEagerAlgorithm)
-        //     .eager(`
-        //             [inserted(filme, onlyInsert).funcionario(withOutPass),
-        //             updated(filme, lastUpdate).funcionario(withOutPass)]
-        //         `);
 
         const results = await query.then();
 
@@ -103,43 +39,35 @@ class FilmeGenero extends BaseModel {
         };
     }
 
-    static async save(filme_genero) {
-        console.log(filme_genero);
-        // if (filme_genero.filme_id) {
-        //     const filme_genero_database = await this.query().select('*').where('filme_id', filme_genero.filme_id).first();
-        //     if (filme_genero_database && filme_genero_database.filme_id) {
-        //         // eslint-disable-next-line no-param-reassign
-        //         filme_genero = { ...filme_genero_database, ...filme_genero };
-        //
-        //         return this.query().upsert(filme_genero, filme_genero_database)
-        //             .then((result) => {
-        //                 if (result) {
-        //                     return result;
-        //                 }
-        //                 return true;
-        //             });
-        //     }
-        //     throw 'Não foi possível atualizar filme gênero!';
-        // }
+    static async save(filme_id, filme_genero) {
+        this.softDelete(filme_id);
 
-        return this.query().upsert(filme_genero)
-            .then((result) => {
-                if (result) {
-                    return result;
-                }
-                return true;
-            });
+        const insertGeneros = genero => new Promise(async (resolve, reject) => {
+            try {
+                const result = this.query().insert(genero)
+                    .then((res) => {
+                        if (res) {
+                            return res;
+                        }
+                        return true;
+                    });
+                resolve(result);
+            } catch (e) {
+                reject(e);
+            }
+        });
+
+        if (filme_genero.length > 0) {
+            // eslint-disable-next-line max-len
+            const insert_generos = await Promise.all(filme_genero.map(item => insertGeneros(item)));
+            return insert_generos.every(item => item.id === 0);
+        }
+        return true;
     }
 
-    static async softDelete({ id }) {
-        const filme = await this.query().select('*').where('filme_genero.filme_id', id)
-            .first();
-
-        if (filme && filme.filme_id) {
-            return this.query().delete().where('filme_id', filme.filme_id)
-                .then();
-        }
-        throw 'Não foi possível excluir filme gênero!';
+    static async softDelete(id) {
+        return this.query().delete().where('filme_id', id)
+            .then();
     }
 }
 

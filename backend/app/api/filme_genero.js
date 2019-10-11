@@ -27,10 +27,10 @@ router.get('/', async (req, res) => {
 });
 
 const save = async (req, res) => {
-    const { filme_genero } = req.body;
+    const { filme_id, filme_genero } = req.body;
 
     try {
-        const result = await FilmeGenero.save(filme_genero);
+        const result = await FilmeGenero.save(filme_id, filme_genero);
 
         if (result === true) {
             res.sendStatus(204);

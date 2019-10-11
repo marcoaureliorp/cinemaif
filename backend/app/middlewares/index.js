@@ -7,5 +7,5 @@ module.exports = (app) => {
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(cors());
-    app.use('/images', express.static(upload_dir));
+    app.use('/uploads', express.static(upload_dir));
 };

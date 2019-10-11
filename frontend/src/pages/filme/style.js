@@ -60,6 +60,7 @@ const Right = styled('div')`
     font-size: ${parse(16)};
     color: ${colors.white};
     width: calc(100% - 300px);
+    margin: 0 20px;
     height: auto;    
 `;
 

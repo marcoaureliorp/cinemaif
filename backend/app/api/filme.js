@@ -4,7 +4,7 @@ const Filme = require('../models/filme');
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+router.get('/:id?', async (req, res) => {
     const id = req.query.id || req.params.id || 0;
     const limit = req.query.limit || null;
     const search = req.query.search || null;
@@ -22,27 +22,32 @@ router.get('/', async (req, res) => {
 
         res.json(result);
     } catch (msg) {
+        console.log(msg);
         res.status(400).send('Bad request!');
     }
 });
 
 const save = async (req, res) => {
-    const { filme } = req.body;
-
-    if (req.params.id) filme.id = Number(req.params.id);
-
     try {
-        if (filme.id === undefined && filme.titulo.trim() === '') {
-            throw 'Título inválido!';
-        }
+        const { upload } = require('../util/fileupload');
 
-        const result = await Filme.save(filme);
+        upload(req, res, async (files, fields) => {
+            const filme = { ...fields };
 
-        if (result === true) {
-            res.sendStatus(204);
-        } else {
-            res.json(result);
-        }
+            if (filme.id) filme.id = Number(filme.id);
+
+            if (filme.titulo.trim() === '') {
+                throw 'Título inválido!';
+            }
+
+            const result = await Filme.save(filme);
+
+            if (result === true) {
+                res.sendStatus(204);
+            } else {
+                res.json(result);
+            }
+        });
     } catch (msg) {
         console.log(msg);
         res.status(400).send(msg);

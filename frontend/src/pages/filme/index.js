@@ -18,6 +18,7 @@ import { parser } from '../../util/styled-components/select-parser';
 function Filme(props) {
     const [arrayClassificacao, setArrayClassificacao] = useState([]);
     const [arrayGeneros, setArrayGeneros] = useState([]);
+    const [filme, setFilme] = useState({});
 
     const classificacaoBackgroundList = [
         {
@@ -40,124 +41,139 @@ function Filme(props) {
         },
     ];
 
-    let listaGeneros = ['Gêneros'];
-
-    async function getGeneros() {
-        const res = await api.get('/generos');
-        if (res.status === 200) {
-            const options = parser('descricao', 'id', res.data.results);
-            setArrayGeneros(options);
-        }
-    }
+    const initial_values = filme.id ? filme : {
+        classificacao: '', generos: [], duracao: null, titulo: '', capa: '', sinopse: '',
+    };
 
     useEffect(() => {
+        async function getGeneros() {
+            const res = await api.get('/generos');
+            if (res.status === 200) {
+                const options = parser('descricao', 'id', res.data.results);
+                setArrayGeneros(options);
+            }
+        }
+
         getGeneros().then();
 
         const optionsClassificacao = parser('name', 'id', classificacaoBackgroundList);
         setArrayClassificacao(optionsClassificacao);
     }, []);
 
-    const makeForm = ({ handleSubmit, values, ...rest }) => {
-        return (
-            <form onSubmit={handleSubmit}>
-                <Container>
-                    <ContainerPreview>
-                        <FilmePreview>
-                            <Left>
-                                <Classificacao
-                                    classificacao={values.classificacao !== '' && values.classificacao !== null
-                                        ? classificacaoBackgroundList.filter(item => item.id === values.classificacao.value)[0].id
-                                        : ''
-                                    }
-                                    background={values.classificacao !== '' && values.classificacao !== null
-                                        ? classificacaoBackgroundList.filter(item => item.id === values.classificacao.value)[0].backgroundColor
-                                        : 'transparent'
-                                    }
-                                    border={values.classificacao !== '' && values.classificacao !== null
-                                        ? classificacaoBackgroundList.filter(item => item.id === values.classificacao.value)[0].border
-                                        : '2px solid white'
-                                    }
-                                    width={65}
-                                    z_index={2}
-                                    color={colors.white}
-                                />
-                                <Field
-                                    name="foto"
-                                    margin="calc(-37px / 2) 0 0 0"
-                                    component={ControlledUploadFile}
-                                />
-                                <Title>{values.titulo !== '' ? values.titulo : 'Título'}</Title>
-                                <Gender>{listaGeneros.length > 0 ? listaGeneros.join(', ') : 'Gêneros'}</Gender>
-                                <Duration>{values.duracao && values.duracao._d ? Moment(values.duracao._d).format('HH:mm') : 'Duração'}</Duration>
-                            </Left>
-                            <Right>{values.sinopse !== '' ? values.sinopse : 'Sinopse'}</Right>
-                        </FilmePreview>
-                    </ContainerPreview>
-                    <ContainerEditor>
-                        <Field
-                            name="titulo"
-                            margin="0 0 19px 0"
-                            placeholder="Título do filme"
-                            component={ControlledInput}
-                        />
-                        <Field
-                            name="duracao"
-                            id="duracao"
-                            margin="0 0 19px 0"
-                            placeholder="Duração do filme"
-                            type="time_picker"
-                            component={ControlledInput}
-                        />
-                        <Field
-                            name="classificacao"
-                            margin="0 0 19px 0"
-                            type="select"
-                            placeholder="Classificação do filme"
-                            component={ControlledInput}
-                            options={arrayClassificacao}
-                        />
-                        <Field
-                            name="generos"
-                            type="select"
-                            placeholder="Gêneros do filme"
-                            margin="0 0 19px 0"
-                            component={ControlledInput}
-                            options={arrayGeneros}
-                            isMulti
-                            onChange={(value) => {
-                                if (value !== null) {
-                                    listaGeneros = [];
-                                    listaGeneros.push(value.map(item => item.label));
-                                } else {
-                                    listaGeneros = ['Gêneros'];
+    useEffect(() => {
+        async function getFilme() {
+            const res = await api.get(`/filmes/${props.match.params.id}`);
+
+            if (res.status === 200) {
+                const dados = res.data;
+
+                dados.duracao = Moment(dados.duracao, 'HH:mm:ss');
+                const get_classificacao = classificacaoBackgroundList.find(item => item.id === dados.classificacao);
+                dados.classificacao = { label: get_classificacao.name, value: get_classificacao.id };
+
+                dados.generos = dados.generos.map(item => ({ label: item.descricao, value: item.id }));
+
+                setFilme(dados);
+            }
+        }
+
+        if (props.match.params.id) {
+            getFilme().then();
+        }
+    }, [props.match.params.id]);
+
+    const makeForm = ({ handleSubmit, values, ...rest }) => (
+        <form onSubmit={handleSubmit}>
+            <Container>
+                <ContainerPreview>
+                    <FilmePreview>
+                        <Left>
+                            <Classificacao
+                                classificacao={values.classificacao !== '' && values.classificacao !== null
+                                    ? classificacaoBackgroundList.filter(item => item.id === values.classificacao.value)[0].id
+                                    : ''
                                 }
-                            }}
-                        />
-                        <Field
-                            name="sinopse"
-                            margin="0 0 19px 0"
-                            height="375px"
-                            placeholder="Sinopse do filme"
-                            component={ControlledInput}
-                        />
-                        <ButtonGroup>
-                            <Button kind="cancel" label="Cancelar" />
-                            <Button kind="save" label="Salvar" />
-                        </ButtonGroup>
-                    </ContainerEditor>
-                </Container>
-            </form>
-        );
-    };
+                                background={values.classificacao !== '' && values.classificacao !== null
+                                    ? classificacaoBackgroundList.filter(item => item.id === values.classificacao.value)[0].backgroundColor
+                                    : 'transparent'
+                                }
+                                border={values.classificacao !== '' && values.classificacao !== null
+                                    ? classificacaoBackgroundList.filter(item => item.id === values.classificacao.value)[0].border
+                                    : '2px solid white'
+                                }
+                                width={65}
+                                z_index={2}
+                                color={colors.white}
+                            />
+                            <Field
+                                name="capa"
+                                margin="calc(-37px / 2) 0 0 0"
+                                component={ControlledUploadFile}
+                            />
+                            <Title>{values.titulo !== '' ? values.titulo : 'Título'}</Title>
+                            <Gender>{values.generos.length > 0 ? values.generos.map(item => item.label).join(', ') : 'Gêneros'}</Gender>
+                            <Duration>{values.duracao && values.duracao._d ? Moment(values.duracao._d).format('HH:mm') : 'Duração'}</Duration>
+                        </Left>
+                        <Right>{values.sinopse !== '' ? values.sinopse : 'Sinopse'}</Right>
+                    </FilmePreview>
+                </ContainerPreview>
+                <ContainerEditor>
+                    <Field
+                        name="titulo"
+                        margin="0 0 19px 0"
+                        placeholder="Título do filme"
+                        component={ControlledInput}
+                    />
+                    <Field
+                        name="duracao"
+                        id="duracao"
+                        margin="0 0 19px 0"
+                        placeholder="Duração do filme"
+                        type="time_picker"
+                        component={ControlledInput}
+                    />
+                    <Field
+                        name="classificacao"
+                        margin="0 0 19px 0"
+                        type="select"
+                        placeholder="Classificação do filme"
+                        component={ControlledInput}
+                        options={arrayClassificacao}
+                    />
+                    <Field
+                        name="generos"
+                        type="select"
+                        placeholder="Gêneros do filme"
+                        margin="0 0 19px 0"
+                        component={ControlledInput}
+                        options={arrayGeneros}
+                        isMulti
+                    />
+                    <Field
+                        name="sinopse"
+                        margin="0 0 19px 0"
+                        height="375px"
+                        as="textarea"
+                        placeholder="Sinopse do filme"
+                        component={ControlledInput}
+                    />
+                    <ButtonGroup>
+                        <Button kind="cancel" label="Cancelar" />
+                        <Button kind="save" label="Salvar" />
+                    </ButtonGroup>
+                </ContainerEditor>
+            </Container>
+        </form>
+    );
 
     return (
         <Page title="Cadastro de Filmes">
             <Formik
-                initialValues={{
-                    classificacao: '', generos: [], duracao: null, titulo: '', foto: '', sinopse: '',
-                }}
+                enableReinitialize
+                initialValues={initial_values}
                 onSubmit={async (values, { setSubmitting, resetForm, ...rest }) => {
                     const filme_to_database = { ...values };
+                    const data = new FormData();
 
                     filme_to_database.classificacao = filme_to_database.classificacao.value;
 
@@ -165,17 +181,26 @@ function Filme(props) {
                     delete filme_to_database.generos;
 
                     filme_to_database.duracao = Moment(filme_to_database.duracao).format('HH:mm');
-                    filme_to_database.capa = filme_to_database.foto.path;
-                    delete filme_to_database.foto;
 
-                    const res = await api.post('/filmes', { filme: filme_to_database });
+                    Object.keys(filme_to_database).forEach((value, index) => {
+                        const index_value = filme_to_database[value];
+
+                        if (index_value instanceof File) {
+                            data.append(value, index_value);
+                        } else {
+                            data.set(value, index_value);
+                        }
+                    });
+
+                    const res = await api.post('/filmes', data);
 
                     if (res.status === 200) {
-                        if (generos.length > 0) {
-                            // eslint-disable-next-line max-len
-                            generos.forEach(item => api.post('/filmes_generos', { filme_genero: { filme_id: res.data.id, genero_id: item } }));
+                        const lista_generos = generos.map(item => ({ filme_id: res.data.id || filme.id, genero_id: item }));
+                        const resolve = await api.post('/filmes_generos', { filme_id: res.data.id || filme.id, filme_genero: lista_generos });
+
+                        if (res.data.id) {
+                            props.history.push(`/filme/${res.data.id}`);
                         }
-                        resetForm();
                     }
                 }}
             >
