@@ -61,14 +61,13 @@ class Sala extends BaseModel {
     }
 
     static async save(tipo) {
-        // TODO fazer
         if (tipo.id) {
-            const genero_database = await this.query().select('*').where('id', tipo.id).first();
-            if (genero_database && genero_database.id) {
+            const sala_database = await this.query().select('*').where('id', tipo.id).first();
+            if (sala_database && sala_database.id) {
                 // eslint-disable-next-line no-param-reassign
-                tipo = { ...genero_database, ...tipo };
+                tipo = { ...sala_database, ...tipo };
 
-                return this.query().upsert(tipo, genero_database)
+                return this.query().upsert(tipo, sala_database)
                     .then((result) => {
                         if (result) {
                             return result;
@@ -76,7 +75,7 @@ class Sala extends BaseModel {
                         return true;
                     });
             }
-            throw 'Não foi possível atualizar tipo!';
+            throw 'Não foi possível atualizar a sala!';
         }
 
         return this.query().upsert(tipo)

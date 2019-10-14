@@ -27,17 +27,16 @@ router.get('/', async (req, res) => {
 });
 
 const save = async (req, res) => {
-    // TODO fazer
-    const { cargo } = req.body;
+    const { sala } = req.body;
 
-    if (req.params.id) cargo.id = Number(req.params.id);
+    if (req.params.id) sala.id = Number(req.params.id);
 
     try {
-        if (cargo.id === undefined && cargo.descricao.trim() === '') {
-            throw 'Descrição inválida!';
+        if (sala.id === undefined && sala.numero.trim() === '') {
+            throw 'Número inválido!';
         }
 
-        const result = await Sala.save(cargo);
+        const result = await Sala.save(sala);
 
         if (result === true) {
             res.sendStatus(204);
@@ -53,7 +52,7 @@ router.put('/', save);
 router.post('/', save);
 
 router.delete('/', async (req, res) => {
-    const { id } = req.params;
+    const { id } = req.query;
 
     const data = {
         id,
