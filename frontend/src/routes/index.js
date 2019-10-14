@@ -15,7 +15,7 @@ export default props => (
     <Switch>
         <Route path="/tipos" component={Tipos} />
         <Route path="/generos" component={Generos} />
-        <Route path="/filme" component={Filme} />
+        <Route path="/filme/:id?" component={Filme} />
         <Route path="/sessoes" component={Sessoes} />
         <Route path="/sessao" component={Sessao} />
         <Route path="/login" component={Login} />

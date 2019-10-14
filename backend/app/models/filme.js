@@ -25,63 +25,25 @@ class Filme extends BaseModel {
         };
     }
 
-    // static get relationMappings() {
-    //     /* eslint import/no-dynamic-require: 0 */
-    //     const FiliaisFuncionarios = require(path.resolve(this.modelPaths, 'filiais-funcionarios.js'));
-    //     const Filiais = require(path.resolve(this.modelPaths, 'filiais.js'));
-    //     const SystemLogs = require(path.resolve(this.modelPaths, 'system-logs.js'));
-    //
-    //     return {
-    //         funcionario_cargos: {
-    //             relation: BaseModel.ManyToManyRelation,
-    //             modelClass: FiliaisFuncionarios,
-    //             join: {
-    //                 from: 'filme.id',
-    //                 through: {
-    //                     from: 'filiais_funcionarios.filme',
-    //                     to: 'filiais_funcionarios.funcionario',
-    //                 },
-    //                 to: 'funcionarios.id',
-    //             },
-    //         },
-    //         filial_cargo: {
-    //             relation: BaseModel.ManyToManyRelation,
-    //             modelClass: Filiais,
-    //             join: {
-    //                 from: 'filme.id',
-    //                 through: {
-    //                     from: 'filiais_funcionarios.filme',
-    //                     to: 'filiais_funcionarios.filial',
-    //                 },
-    //                 to: 'filiais.id',
-    //             },
-    //         },
-    //         system_logs: {
-    //             relation: BaseModel.HasManyRelation,
-    //             modelClass: SystemLogs,
-    //             join: {
-    //                 from: 'feedbacks.id',
-    //                 to: 'system_logs.referencia',
-    //             },
-    //         },
-    //         inserted: {
-    //             relation: BaseModel.BelongsToOneRelation,
-    //             modelClass: SystemLogs,
-    //             join: {
-    //                 from: 'filme.id',
-    //                 to: 'system_logs.referencia',
-    //             },
-    //         },
-    //         updated: {
-    //             relation: BaseModel.BelongsToOneRelation,
-    //             modelClass: SystemLogs,
-    //             join: {
-    //                 from: 'filme.id',
-    //                 to: 'system_logs.referencia',
-    //             },
-    //         },
-    //     };
-    // }
+    static get relationMappings() {
+        /* eslint import/no-dynamic-require: 0 */
+        const Genero = require(path.resolve(this.modelPaths, 'genero.js'));
+
+        return {
+            generos: {
+                relation: BaseModel.ManyToManyRelation,
+                modelClass: Genero,
+                join: {
+                    from: 'filme.id',
+                    through: {
+                        from: 'filme_genero.filme_id',
+                        to: 'filme_genero.genero_id',
+                    },
+                    to: 'genero.id',
+                },
+            },
+        };
+    }
 
     static async get({
         id,
@@ -91,11 +53,8 @@ class Filme extends BaseModel {
     }) {
         const query = this.query().select();
 
-        // query.eagerAlgorithm(this.JoinEagerAlgorithm)
-        //     .eager(`
-        //             [inserted(filme, onlyInsert).funcionario(withOutPass),
-        //             updated(filme, lastUpdate).funcionario(withOutPass)]
-        //         `);
+        query.eagerAlgorithm(this.JoinEagerAlgorithm)
+            .eager('generos');
 
         if (id !== 0) {
             query.where('filme.id', id);

@@ -1,9 +1,15 @@
+const fs = require('fs');
 const formidable = require('formidable');
 const path = require('path');
 const md5 = require('md5');
 const { upload_dir } = require('../../config/paths');
 
 const upload = (req, res, callback) => {
+    // Verifica se a pasta de uploads existe
+    if (!fs.existsSync(upload_dir)) {
+        fs.mkdirSync(upload_dir);
+    }
+
     const form = new formidable.IncomingForm();
     form.keepExtensions = true;
     form.uploadDir = upload_dir;
