@@ -1,16 +1,35 @@
 import React from 'react';
-import { Container, Capa, Text } from './styles';
+import {
+    Container, IconEditFilm, IconEditSession, Capa, Text,
+} from './styles';
 import { colors } from '../../config/theme';
+import { classificacaoBackgroundList } from '../../util/classificacao-list';
 
 import Classificacao from '../classificacao';
 
-function Filme(props) {
+function Filme({
+    history, id, titulo, generos, capa, classificacao,
+}) {
+    const get_classificacao = classificacaoBackgroundList.find(item => item.id === classificacao);
+
     return (
         <Container>
-            <Classificacao classificacao="Livre" background="green" />
-            <Capa />
-            <Text margin="0 0 9px">Vingadores Ultimato</Text>
-            <Text color={colors.blue_grey} font_size="16">Ficção, Ação</Text>
+            <IconEditFilm
+                position="absolute"
+                color={colors.white}
+                onClick={() => history.push(`/filme/${id}`)}
+                display="none"
+            />
+            <IconEditSession
+                position="absolute"
+                color={colors.white}
+                onClick={() => history.push(`/sessao/${id}`)}
+                display="none"
+            />
+            <Classificacao classificacao={get_classificacao.id} background={get_classificacao.backgroundColor} />
+            <Capa src={capa} />
+            <Text margin="0 0 9px">{titulo}</Text>
+            <Text color={colors.blue_grey} font_size="16">{generos}</Text>
         </Container>
     );
 }

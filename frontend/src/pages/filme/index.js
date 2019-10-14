@@ -14,32 +14,12 @@ import ControlledUploadFile from '../../components/controlled-upload-file';
 import api from '../../services/api';
 import { colors } from '../../config/theme';
 import { parser } from '../../util/styled-components/select-parser';
+import { classificacaoBackgroundList } from '../../util/classificacao-list';
 
 function Filme(props) {
     const [arrayClassificacao, setArrayClassificacao] = useState([]);
     const [arrayGeneros, setArrayGeneros] = useState([]);
     const [filme, setFilme] = useState({});
-
-    const classificacaoBackgroundList = [
-        {
-            id: 'L', name: 'Livre', backgroundColor: '#00B150', border: 'none',
-        },
-        {
-            id: '10', name: '10 anos', backgroundColor: '#00CDFF', border: 'none',
-        },
-        {
-            id: '12', name: '12 anos', backgroundColor: '#FFCC00', border: 'none',
-        },
-        {
-            id: '14', name: '14 anos', backgroundColor: '#FF6600', border: 'none',
-        },
-        {
-            id: '16', name: '16 anos', backgroundColor: '#F60000', border: 'none',
-        },
-        {
-            id: '18', name: '18 anos', backgroundColor: '#000000', border: 'none',
-        },
-    ];
 
     const initial_values = filme.id ? filme : {
         classificacao: '', generos: [], duracao: null, titulo: '', capa: '', sinopse: '',
