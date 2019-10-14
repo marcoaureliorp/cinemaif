@@ -24,6 +24,10 @@ function Menu({ history }) {
                 Tipos
             </MenuItem>
             {/* eslint-disable-next-line react/prop-types */}
+            <MenuItem onClick={() => history.push('/salas')}>
+                Salas
+            </MenuItem>
+            {/* eslint-disable-next-line react/prop-types */}
             <MenuItem onClick={() => history.push('/login')}>
                 Login
             </MenuItem>
