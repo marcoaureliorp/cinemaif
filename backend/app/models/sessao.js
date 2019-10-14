@@ -13,14 +13,16 @@ class Sessao extends BaseModel {
     static get jsonSchema() {
         return {
             type: 'object',
-            required: ['sala_id', 'filme_id', 'tipo_id', 'inicio_sessao', 'final_sessao', 'valor'],
+            required: ['sala_id', 'filme_id', 'tipo_id', 'inicio_sessao', 'final_sessao', 'valor', 'dia_inicio', 'dia_fim'],
             properties: {
                 id: { type: 'integer' },
                 sala_id: { type: 'number' },
                 filme_id: { type: 'number' },
                 tipo_id: { type: 'number' },
-                inicio_sessao: { type: 'string', format: 'date-time' },
-                final_sessao: { type: 'string', format: 'date-time' },
+                inicio_sessao: { type: 'string', format: 'time' },
+                final_sessao: { type: 'string', format: 'time' },
+                dia_inicio: { type: 'string', format: 'date' },
+                dia_fim: { type: 'string', format: 'date' },
                 valor: { type: 'number' },
             },
         };
@@ -68,7 +70,6 @@ class Sessao extends BaseModel {
         }
 
         if (filme) {
-            query.groupBy(['tipo_id', 'inicio_sessao', 'final_sessao']);
             query.where('filme_id', filme);
         }
 
@@ -86,7 +87,7 @@ class Sessao extends BaseModel {
 
         const results = await query.then();
 
-        const total = await query.groupBy(filme ? ['tipo_id', 'inicio_sessao', 'final_sessao'] : 'id').resultSize();
+        const total = await query.groupBy('id').resultSize();
 
         return {
             results,
@@ -95,33 +96,7 @@ class Sessao extends BaseModel {
     }
 
     static async save(sessoes) {
-        async function upsertSessao(sessao) {
-            return new Promise(async (resolve, reject) => {
-                const sessao_database = this.query().select('*')
-                    .where('inicio', sessao.inicio)
-                    .where('fim', sessao.fim);
 
-
-            });
-        }
-
-        const result = Promise.all(sessoes.map(sessao => upsertSessao(sessao)));
-
-        process.exit();
-
-        // if (genero_database && genero_database.id) {
-        //     // eslint-disable-next-line no-param-reassign
-        //     tipo = { ...genero_database, ...tipo };
-        //
-        //     return this.query().upsert(tipo, genero_database)
-        //         .then((result) => {
-        //             if (result) {
-        //                 return result;
-        //             }
-        //             return true;
-        //         });
-        // }
-        // throw 'Não foi possível atualizar tipo!';
     }
 
     static async softDelete({ id }) {

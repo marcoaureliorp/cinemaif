@@ -4,9 +4,8 @@ import Input from '../form-components/input';
 import MultipleDate from '../form-components/multiple-date';
 import Pricing from '../form-components/pricing';
 import TimePicker from '../form-components/time-picker';
-// import DatePicker from '../form-components/date-picker';
 import Select from '../form-components/select';
-// import StyledRadioGroup from '../form-components/styled-radio-group';
+import DateRange from '../form-components/date-range';
 
 function ControlledInput({
     children,
@@ -44,6 +43,7 @@ function ControlledInput({
                 || type === 'multiple_date'
                 || type === 'pricing'
                 || type === 'time_picker'
+                || type === 'date_range'
             ) form.setFieldValue(name, event);
         },
         onBlur(event) {
@@ -60,6 +60,7 @@ function ControlledInput({
                 || type === 'input_radio'
                 || type === 'multiple_date'
                 || type === 'time_picker'
+                || type === 'date_range'
             ) form.setFieldTouched(field.name, true);
         },
         onFocus(event) {
@@ -103,6 +104,13 @@ function ControlledInput({
                 if (type === 'multiple_date') {
                     return (
                         <MultipleDate
+                            {...field_props}
+                        />
+                    );
+                }
+                if (type === 'date_range') {
+                    return (
+                        <DateRange
                             {...field_props}
                         />
                     );

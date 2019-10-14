@@ -87,7 +87,7 @@ function Sessao(props) {
                     id="dias"
                     margin="0 0 15px 0"
                     placeholder="Dias da sessão"
-                    type="multiple_date"
+                    type="date_range"
                     component={Input}
                 />
                 <Field
@@ -119,14 +119,14 @@ function Sessao(props) {
                 <Field
                     name="inicio"
                     margin="0 0 15px 0"
-                    ids="inicio"
+                    id="inicio"
                     type="time_picker"
                     component={Input}
                     placeholder="Início da sessão"
                 />
                 <Field
                     name="fim"
-                    ids="fim"
+                    id="fim"
                     type="time_picker"
                     component={Input}
                     placeholder="Final da sessão"
@@ -172,7 +172,7 @@ function Sessao(props) {
                         initialValues={{
                             inicio: null,
                             fim: null,
-                            dias: [],
+                            dias: '',
                             sala: '',
                             tipo: '',
                             preco: '',
