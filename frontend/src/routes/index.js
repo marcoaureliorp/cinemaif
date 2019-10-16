@@ -19,7 +19,7 @@ export default props => (
         <Route path="/generos" component={Generos} />
         <Route path="/filme/:id?" component={Filme} />
         <Route path="/sessoes" component={Sessoes} />
-        <Route path="/sessao" component={Sessao} />
+        <Route path="/sessao/:id?" component={Sessao} />
         <Route path="/login" component={Login} />
         <Route path="/usuario" component={Usuario} />
         <Route path="/" component={Home} />

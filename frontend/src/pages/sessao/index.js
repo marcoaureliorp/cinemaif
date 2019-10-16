@@ -15,6 +15,31 @@ import { parser } from '../../util/styled-components/select-parser';
 function Sessao(props) {
     const [tipos, setTipos] = useState([]);
     const [salas, setSalas] = useState([]);
+    const [sessao, setSessao] = useState({});
+    const [updateTable, setUpdateTable] = useState(false);
+    const filme_id = Number(props.match.params.id) || null;
+
+    const initialValues = sessao.id ? sessao : {
+        inicio_sessao: null,
+        final_sessao: null,
+        dias: '',
+        sala: '',
+        tipo: '',
+        valor: '',
+    };
+
+    useEffect(() => {
+        if (!filme_id) {
+            props.history.push('/');
+        }
+    });
+
+
+    useEffect(() => {
+        if (updateTable) {
+            setUpdateTable(false);
+        }
+    }, [updateTable]);
 
     useEffect(() => {
         async function getInfoSelects() {
@@ -43,8 +68,6 @@ function Sessao(props) {
             },
         });
 
-        console.log(result.data);
-
         return result;
     }
 
@@ -64,7 +87,7 @@ function Sessao(props) {
             accessor: 'inicio_sessao',
             value: 'Início',
             Cell: (props) => {
-                const value = moment(props.value, 'DD/MM/YYYY HH:mm:ss');
+                const value = moment(props.value, 'HH:mm:ss');
                 return (<div>{value.format('HH:mm:ss')}</div>);
             },
         },
@@ -73,7 +96,7 @@ function Sessao(props) {
             accessor: 'final_sessao',
             value: 'Fim',
             Cell: (props) => {
-                const value = moment(props.value, 'DD/MM/YYYY HH:mm:ss');
+                const value = moment(props.value, 'HH:mm:ss');
                 return (<div>{value.format('HH:mm:ss')}</div>);
             },
         },
@@ -109,24 +132,24 @@ function Sessao(props) {
                     component={Input}
                 />
                 <Field
-                    name="preco"
+                    name="valor"
                     margin="0 0 15px 0"
-                    id="preco"
+                    id="valor"
                     placeholder="Preço"
                     type="pricing"
                     component={Input}
                 />
                 <Field
-                    name="inicio"
+                    name="inicio_sessao"
                     margin="0 0 15px 0"
-                    id="inicio"
+                    id="inicio_sessao"
                     type="time_picker"
                     component={Input}
                     placeholder="Início da sessão"
                 />
                 <Field
-                    name="fim"
-                    id="fim"
+                    name="final_sessao"
+                    id="final_sessao"
                     type="time_picker"
                     component={Input}
                     placeholder="Final da sessão"
@@ -139,13 +162,32 @@ function Sessao(props) {
         );
     }
 
+    function setSessaoEdit(data) {
+        const dias = [moment(data.dia_inicio, 'DD/MM/YYYY').toDate(), moment(data.dia_fim, 'DD/MM/YYYY').toDate()];
+        const inicio_sessao = moment(data.inicio_sessao, 'HH:mm:ss');
+        const final_sessao = moment(data.final_sessao, 'HH:mm:ss');
+
+        const tipo = { label: data.tipo.descricao, value: data.tipo.id };
+        const sala = { label: data.sala.numero, value: data.sala.id };
+
+        setSessao({
+            id: data.id,
+            valor: data.valor,
+            dias,
+            inicio_sessao,
+            final_sessao,
+            tipo,
+            sala,
+        });
+    }
+
     return (
         <Page title="Sessão">
             <Container>
                 <ContainerTable>
                     <StyledTable
                         headers={headers}
-                        // fireFetch={updateTable}
+                        fireFetch={updateTable}
                         // eslint-disable-next-line max-len,no-return-await
                         data_function={getSessoes}
                         editFunction={({ original }) => {
@@ -153,14 +195,16 @@ function Sessao(props) {
                         }}
                         clickHandler={async (state, rowInfo, column, instance) => {
                             if (column.name === 'edit') {
+                                setSessaoEdit(rowInfo.original);
                             }
 
                             if (column.name === 'delete') {
                                 const { id } = rowInfo.original;
 
-                                const res = await api.delete('/generos', { params: { id } });
+                                const res = await api.delete('/sessoes', { params: { id } });
 
                                 if (res.status === 204) {
+                                    setUpdateTable(true);
                                 }
                             }
                         }}
@@ -169,40 +213,40 @@ function Sessao(props) {
                 </ContainerTable>
                 <ContainerEditor>
                     <Formik
-                        initialValues={{
-                            inicio: null,
-                            fim: null,
-                            dias: '',
-                            sala: '',
-                            tipo: '',
-                            preco: '',
-                        }}
-                        onSubmit={(values) => {
-                            const sessoes_to_save = values.dias.map((day) => {
-                                const new_day = moment(day).format('DD/MM/YYYY');
-                                const inicio = moment(values.inicio._d).format('HH:mm:00');
-                                const final = moment(values.inicio._d).format('HH:mm:00');
+                        enableReinitialize
+                        initialValues={initialValues}
+                        onSubmit={(values, { resetForm }) => {
+                            const inicio_sessao = moment(values.inicio_sessao._d).format('HH:mm:00');
+                            const final_sessao = moment(values.final_sessao._d).format('HH:mm:00');
 
-                                const new_inicio = `${new_day} ${inicio}`;
-                                const new_final = `${new_day} ${final}`;
+                            const dia_inicio = moment(values.dias[0]).format('DD/MM/YYYY');
+                            const dia_fim = moment(values.dias[1]).format('DD/MM/YYYY');
 
-                                return {
-                                    inicio: new_inicio,
-                                    fim: new_final,
-                                    preco: values.preco,
-                                    tipo_id: values.tipo.value,
-                                    sala_id: values.sala.value,
-                                    filme_id: 1,
-                                };
-                            });
+                            const sessoes_to_save = {
+                                inicio_sessao,
+                                final_sessao,
+                                valor: values.valor,
+                                tipo_id: values.tipo.value,
+                                sala_id: values.sala.value,
+                                filme_id,
+                                dia_inicio,
+                                dia_fim,
+                            };
+
+                            if (values.id) {
+                                sessoes_to_save.id = values.id;
+                            }
 
                             async function save(sessoes) {
                                 const result = await api.post('sessoes', {
-                                    params: {
-                                        sessoes,
-                                    },
+                                    sessoes,
                                 });
-                                console.log(result);
+
+                                if (result.status === 200) {
+                                    resetForm();
+                                    setSessao({});
+                                    setUpdateTable(true);
+                                }
                             }
 
                             save(sessoes_to_save);

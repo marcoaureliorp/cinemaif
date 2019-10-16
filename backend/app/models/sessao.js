@@ -96,18 +96,41 @@ class Sessao extends BaseModel {
     }
 
     static async save(sessoes) {
+        if (sessoes.id) {
+            const sessoes_database = await this.query().select('*').where('id', sessoes.id).first();
+            if (sessoes_database && sessoes_database.id) {
+                // eslint-disable-next-line no-param-reassign
+                sessoes = { ...sessoes_database, ...sessoes };
 
+                return this.query().upsert(sessoes, sessoes_database)
+                    .then((result) => {
+                        if (result) {
+                            return result;
+                        }
+                        return true;
+                    });
+            }
+            throw 'Não foi possível atualizar sessão!';
+        }
+
+        return this.query().upsert(sessoes)
+            .then((result) => {
+                if (result) {
+                    return result;
+                }
+                return true;
+            });
     }
 
     static async softDelete({ id }) {
-        const sala = await this.query().select('*').where('sala.id', id)
+        const sessao = await this.query().select('*').where('sessao.id', id)
             .first();
 
-        if (sala && sala.id) {
-            return this.query().delete().where('id', sala.id)
+        if (sessao && sessao.id) {
+            return this.query().delete().where('id', sessao.id)
                 .then();
         }
-        throw 'Não foi possível excluir sala!';
+        throw 'Não foi possível excluir sessão!';
     }
 }
 

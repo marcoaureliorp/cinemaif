@@ -31,7 +31,6 @@ router.get('/', async (req, res) => {
 
 const save = async (req, res) => {
     const { sessoes } = req.body;
-
     try {
         const result = await Sessao.save(sessoes);
 
@@ -41,6 +40,7 @@ const save = async (req, res) => {
             res.json(result);
         }
     } catch (msg) {
+        console.log(msg);
         res.status(400).send(msg);
     }
 };
@@ -49,7 +49,7 @@ router.put('/', save);
 router.post('/', save);
 
 router.delete('/', async (req, res) => {
-    const { id } = req.params;
+    const { id } = req.query;
 
     const data = {
         id,
@@ -62,6 +62,7 @@ router.delete('/', async (req, res) => {
             res.sendStatus(204);
         }
     } catch (msg) {
+        console.log(msg);
         res.sendStatus(400);
     }
 });
