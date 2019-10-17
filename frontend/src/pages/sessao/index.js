@@ -62,7 +62,7 @@ function Sessao(props) {
     async function getSessoes({ page, limit }) {
         const result = await api.get('sessoes', {
             params: {
-                filme: 1,
+                filme: filme_id,
                 page,
                 limit,
             },
