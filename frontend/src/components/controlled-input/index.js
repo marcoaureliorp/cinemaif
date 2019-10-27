@@ -90,7 +90,7 @@ function ControlledInput({
         field_props.error_message = errors[name];
     }
 
-    if (type !== 'date' && type !== 'input_radio') {
+    if (type !== 'input_radio') {
         field_props.type = type;
     }
 

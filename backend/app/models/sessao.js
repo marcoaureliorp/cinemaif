@@ -32,8 +32,17 @@ class Sessao extends BaseModel {
         /* eslint import/no-dynamic-require: 0 */
         const Tipo = require(path.resolve(this.modelPaths, 'tipo.js'));
         const Sala = require(path.resolve(this.modelPaths, 'sala.js'));
+        const Filme = require(path.resolve(this.modelPaths, 'filme.js'));
 
         return {
+            filme: {
+                relation: BaseModel.HasOneRelation,
+                modelClass: Filme,
+                join: {
+                    from: 'sessao.filme_id',
+                    to: 'filme.id',
+                },
+            },
             tipo: {
                 relation: BaseModel.HasOneRelation,
                 modelClass: Tipo,
@@ -63,7 +72,7 @@ class Sessao extends BaseModel {
         const query = this.query().select();
 
         query.eagerAlgorithm(this.JoinEagerAlgorithm)
-            .eager('[tipo,sala]');
+            .eager('[tipo, sala, filme]');
 
         if (id !== 0) {
             query.where('sessao.id', id);

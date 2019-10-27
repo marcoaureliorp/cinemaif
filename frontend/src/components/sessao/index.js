@@ -1,53 +1,35 @@
 import React from 'react';
 import {
-    ContainerSessao, Container, ContainerCapa, Capa, ContainerInfo, Title,
+    Container, ContainerCapa, Capa, ContainerInfo, Title,
 } from './styles';
 import Classificacao from '../classificacao';
 import SessoesSala from '../sessoes-sala';
+import { classificacaoBackgroundList } from '../../util/classificacao-list';
 
-const Sessao = () => (
-    <ContainerSessao>
-        <Container>
+const Sessao = ({
+    history, id, filme_id, capa, classificacao, titulo, horarios, sala, tipo,
+}) => {
+    const get_classificacao = classificacaoBackgroundList.find(item => item.id === classificacao);
+
+    return (
+        <Container
+            onClick={() => history.push(`/sessao/${filme_id}`)}
+        >
             <ContainerCapa>
-                <Capa />
-                <Classificacao position="absolute" bottom="0" background="yellow" classificacao="16" />
+                <Capa src={capa} />
+                <Classificacao
+                    classificacao={get_classificacao.id}
+                    background={get_classificacao.backgroundColor}
+                    bottom="0"
+                    position="absolute"
+                />
             </ContainerCapa>
             <ContainerInfo>
-                <Title>Avengers: End Game</Title>
-                <SessoesSala sala="Sala 2" tipos={['3D', 'XD']} horarios={['16:00']} />
+                <Title>{titulo}</Title>
+                <SessoesSala sala={`Sala ${sala}`} tipos={tipo} horarios={horarios} />
             </ContainerInfo>
         </Container>
-        <Container>
-            <ContainerCapa>
-                <Capa />
-                <Classificacao position="absolute" bottom="0" background="yellow" classificacao="16" />
-            </ContainerCapa>
-            <ContainerInfo>
-                <Title>Avengers: End Game</Title>
-                <SessoesSala sala="Sala 2" tipos={['3D', 'XD']} horarios={['16:00']} />
-            </ContainerInfo>
-        </Container>
-        <Container>
-            <ContainerCapa>
-                <Capa />
-                <Classificacao position="absolute" bottom="0" background="yellow" classificacao="16" />
-            </ContainerCapa>
-            <ContainerInfo>
-                <Title>Avengers: End Game</Title>
-                <SessoesSala sala="Sala 2" tipos={['3D', 'XD']} horarios={['16:00']} />
-            </ContainerInfo>
-        </Container>
-        <Container>
-            <ContainerCapa>
-                <Capa />
-                <Classificacao position="absolute" bottom="0" background="yellow" classificacao="16" />
-            </ContainerCapa>
-            <ContainerInfo>
-                <Title>Avengers: End Game</Title>
-                <SessoesSala sala="Sala 2" tipos={['3D', 'XD']} horarios={['16:00']} />
-            </ContainerInfo>
-        </Container>
-    </ContainerSessao>
-);
+    );
+};
 
 export default Sessao;

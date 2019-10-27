@@ -52,7 +52,7 @@ function Ingresso(props) {
     return (
         <Page title="Ingresso">
             <ContainerCadeiras>
-                {buildChairs(43)}
+                {buildChairs(33)}
             </ContainerCadeiras>
         </Page>
     );

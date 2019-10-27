@@ -1,8 +1,8 @@
 import React from 'react';
 import { Formik, Field } from 'formik';
 import { Container, ContainerEditor } from './styles';
-import Input from '../controlled-input';
-import Button from '../button';
+import ControlledInput from '../../components/controlled-input';
+import Button from '../../components/button';
 import api from '../../services/api';
 
 function Usuario(props) {
@@ -10,21 +10,22 @@ function Usuario(props) {
     const makeForm = ({ handleSubmit }) => (
         <form onSubmit={handleSubmit}>
             <Field
-                component={Input}
+                component={ControlledInput}
                 name="login"
                 margin="0 0 19px 0"
                 placeholder="Login"
             />
             <Field
-                component={Input}
+                component={ControlledInput}
                 name="senha"
                 type="password"
                 margin="0 0 19px 0"
                 placeholder="Senha"
             />
             <Field
-                component={Input}
+                component={ControlledInput}
                 name="data_nascimento"
+                id="data_nascimento"
                 margin="0 0 19px 0"
                 // type="date"
                 placeholder="Data de Nascimento"

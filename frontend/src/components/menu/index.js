@@ -35,7 +35,6 @@ function Menu({ history }) {
             <MenuItem onClick={() => history.push('/usuario')}>
                 Cadastrar Usuário
             </MenuItem>
-            <MenuItem>Lançamentos</MenuItem>
         </Container>
     );
 }

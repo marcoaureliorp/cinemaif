@@ -1,13 +1,6 @@
 import styled from 'styled-components';
 import { colors } from '../../config/theme';
-import capa from '../../images/capa.jpg';
 import { parse } from '../../util/styled-components/font-size';
-
-const ContainerSessao = styled('div')`
-  width: 100%;
-  display: flex;
-  flex-flow: row wrap;
-`;
 
 const Container = styled('div')`
   width: calc(50% - 100px);
@@ -33,10 +26,10 @@ const ContainerCapa = styled('div')`
   position:relative;
 `;
 
-const Capa = styled('div')`
+const Capa = styled('img')`
   width: 100%;
   height: 100%;
-  background: url("${props => (props.capa ? props.capa : capa)}") center / cover no-repeat;
+  object-fit: cover;
 `;
 
 const ContainerInfo = styled('div')`
@@ -56,5 +49,5 @@ const Title = styled('h3')`
 `;
 
 export {
-    ContainerSessao, Container, ContainerCapa, Capa, ContainerInfo, Title,
+    Container, ContainerCapa, Capa, ContainerInfo, Title,
 };

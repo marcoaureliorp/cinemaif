@@ -131,9 +131,8 @@ class Usuario extends BaseModel {
     }) {
         const query = this.query().select();
 
-        if (login !== null) {
-            query.where('login', 'like', `%${login}%`);
-        }
+        query.where('login', '=', `${login}`)
+            .andWhere('senha', '=', `${senha}`);
 
         const results = await query.then();
 

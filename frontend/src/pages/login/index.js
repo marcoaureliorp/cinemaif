@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Formik, Field } from 'formik';
 import { Container, ContainerEditor } from './style';
 import Input from '../../components/controlled-input';
@@ -42,6 +42,7 @@ function Login(props) {
                             resetForm();
                         } else {
                             console.log('erro login', res);
+                            alert('Login/senha incorretos!');
                         }
                     }}
                 >

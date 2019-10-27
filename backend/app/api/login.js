@@ -5,8 +5,7 @@ const Usuario = require('../models/usuario');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-    const { login } = req.query || null;
-    const { senha } = req.query || null;
+    const { login, senha } = req.query || null;
 
     const data = {
         login,

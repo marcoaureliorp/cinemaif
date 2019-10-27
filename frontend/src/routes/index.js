@@ -11,7 +11,7 @@ import Salas from '../pages/salas';
 import Filme from '../pages/filme';
 import Login from '../pages/login';
 import Ingresso from '../pages/ingresso';
-import Usuario from '../components/usuario';
+import Usuario from '../pages/usuario';
 
 export default props => (
     <Switch>
