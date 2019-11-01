@@ -23,7 +23,8 @@
     "react-select": "^3.0.8",
     "react-spinners": "^0.6.1",
     "react-table": "^6.10.3",
-    "styled-components": "^4.3.2"
+    "styled-components": "^4.3.2",
+    "yup": "^0.27.0"
   },
   "scripts": {
     "start": "react-scripts start",

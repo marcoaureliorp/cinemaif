@@ -7,6 +7,7 @@ import Input from '../../components/controlled-input';
 import { ButtonGroup } from '../../components/button/styles';
 import Button from '../../components/button';
 import api from '../../services/api';
+import * as Yup from "yup";
 
 
 function Tipos(props) {
@@ -78,6 +79,10 @@ function Tipos(props) {
                 </ContainerTable>
                 <ContainerEditor>
                     <Formik
+                        validationSchema={Yup.object({
+                            descricao: Yup.string()
+                                .required('Descrição é obrigatório!'),
+                        })}
                         enableReinitialize
                         initialValues={initialValues}
                         onSubmit={async (values, { setSubmitting, resetForm, ...rest }) => {
