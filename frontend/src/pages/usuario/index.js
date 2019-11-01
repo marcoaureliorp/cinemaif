@@ -1,5 +1,7 @@
 import React from 'react';
 import { Formik, Field } from 'formik';
+import Moment from 'moment';
+import cogoToast from 'cogo-toast';
 import { Container, ContainerEditor } from './styles';
 import ControlledInput from '../../components/controlled-input';
 import Button from '../../components/button';
@@ -27,7 +29,7 @@ function Usuario(props) {
                 name="data_nascimento"
                 id="data_nascimento"
                 margin="0 0 19px 0"
-                // type="date"
+                type="date"
                 placeholder="Data de Nascimento"
             />
             <Button label="Salvar" kind="save" width="100%" type="submit" />
@@ -38,12 +40,21 @@ function Usuario(props) {
         <Container>
             <ContainerEditor>
                 <Formik
+                    initialValues={{ login: '', senha: '', data_nascimento: null }}
                     onSubmit={async (values, { setSubmitting, resetForm, ...rest }) => {
                         const usuario_to_database = { ...values };
+
+                        usuario_to_database.data_nascimento = Moment(usuario_to_database.data_nascimento)
+                            .format('DD/M/YYYY');
+
                         const res = await api.post('/usuarios', { usuario: usuario_to_database });
 
                         if (res.status === 200) {
+                            cogoToast.success('Usuário cadastrado com sucesso!');
                             resetForm();
+                        } else {
+                            console.log(res.error);
+                            cogoToast.error('Erro ao cadastrar Usuário!');
                         }
                     }}
                 >

@@ -6,6 +6,7 @@ import Pricing from '../form-components/pricing';
 import TimePicker from '../form-components/time-picker';
 import Select from '../form-components/select';
 import DateRange from '../form-components/date-range';
+import Date from '../form-components/date';
 
 function ControlledInput({
     children,
@@ -111,6 +112,13 @@ function ControlledInput({
                 if (type === 'date_range') {
                     return (
                         <DateRange
+                            {...field_props}
+                        />
+                    );
+                }
+                if (type === 'date') {
+                    return (
+                        <Date
                             {...field_props}
                         />
                     );

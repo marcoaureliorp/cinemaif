@@ -145,6 +145,7 @@ class Usuario extends BaseModel {
     }
 
     static async save(usuario) {
+        console.log('model', usuario);
         if (usuario.id) {
             const usuario_database = await this.query().select('*').where('id', usuario.id).first();
             if (usuario_database && usuario_database.id) {

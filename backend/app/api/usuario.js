@@ -36,6 +36,7 @@ const save = async (req, res) => {
             throw 'Login inválida!';
         }
 
+        console.log('api', usuario);
         const result = await Usuario.save(usuario);
 
         if (result === true) {
