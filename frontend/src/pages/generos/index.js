@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Formik, Field } from 'formik';
+import * as Yup from 'yup';
 import Page from '../../components/page';
 import StyledTable from '../../components/styled-table';
 import { Container, ContainerTable, ContainerEditor } from './style';
@@ -80,6 +81,10 @@ function Generos(props) {
                     <Formik
                         enableReinitialize
                         initialValues={initialValues}
+                        validationSchema={Yup.object({
+                            descricao: Yup.string()
+                                .required('Descrição é obrigatório!'),
+                        })}
                         onSubmit={async (values, { setSubmitting, resetForm, ...rest }) => {
                             const genero_to_database = { ...values };
                             const res = await api.post('/generos', { genero: genero_to_database });

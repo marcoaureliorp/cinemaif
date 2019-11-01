@@ -7,6 +7,7 @@ import Input from '../../components/controlled-input';
 import { ButtonGroup } from '../../components/button/styles';
 import Button from '../../components/button';
 import api from '../../services/api';
+import * as Yup from "yup";
 
 
 function Sala(props) {
@@ -41,6 +42,7 @@ function Sala(props) {
         <form onSubmit={handleSubmit}>
             <Field
                 component={Input}
+                type="number"
                 name="cadeiras"
                 placeholder="Cadeiras"
                 margin="0 0 19px 0"
@@ -89,6 +91,14 @@ function Sala(props) {
                 </ContainerTable>
                 <ContainerEditor>
                     <Formik
+                        validationSchema={Yup.object({
+                            numero: Yup.string()
+                                .required('Número é obrigatório!'),
+                            cadeiras: Yup.number()
+                                .required('Obrigatório!')
+                                .min(40, 'Mínimo 40')
+                                .max(80, 'Máximo 80'),
+                        })}
                         enableReinitialize
                         initialValues={initialValues}
                         onSubmit={async (values, { setSubmitting, resetForm, ...rest }) => {
