@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Formik, Field } from 'formik';
+import * as Yup from 'yup';
 import moment from 'moment';
 import Page from '../../components/page';
 import { Container } from './styles';
@@ -22,10 +23,10 @@ function Sessao(props) {
     const initialValues = sessao.id ? sessao : {
         inicio_sessao: null,
         final_sessao: null,
-        dias: '',
+        dias: null,
         sala: '',
         tipo: '',
-        valor: '',
+        valor: null,
     };
 
     useEffect(() => {
@@ -214,6 +215,20 @@ function Sessao(props) {
                 <ContainerEditor>
                     <Formik
                         enableReinitialize
+                        validationSchema={Yup.object({
+                            dias: Yup.mixed()
+                                .required('Dias é obrigatório!'),
+                            sala: Yup.mixed()
+                                .required('Sala é obrigatório!'),
+                            tipo: Yup.mixed()
+                                .required('Tipo é obrigatório!'),
+                            valor: Yup.mixed()
+                                .required('Valor é obrigatório!'),
+                            inicio_sessao: Yup.mixed()
+                                .required('Início da Sessão é obrigatório!').validMoment(),
+                            final_sessao: Yup.mixed()
+                                .required('Final da Sessão é obrigatório!').validMoment(),
+                        })}
                         initialValues={initialValues}
                         onSubmit={(values, { resetForm }) => {
                             const inicio_sessao = moment(values.inicio_sessao._d).format('HH:mm:00');

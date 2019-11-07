@@ -31,7 +31,7 @@ function FileUpload({
                         </ImageContainer>
                     )
                     : (
-                        <AddPhoto>
+                        <AddPhoto {...attrs}>
                             {(() => {
                                 if (isDragReject) {
                                     return 'Arquivo inválido!';

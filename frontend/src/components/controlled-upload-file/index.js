@@ -9,6 +9,13 @@ function ControlledUploadFile({
 }) {
     const { name, value } = field;
 
+    const { errors, touched } = form;
+    const attrs = {};
+
+    if (errors[name] && touched[name]) {
+        attrs.error_message = errors[name];
+    }
+
     let image_preview = (value && typeof value === 'string')
         ? { preview: `${api.defaults.baseURL}uploads/${value}` }
         : value;
@@ -67,6 +74,7 @@ function ControlledUploadFile({
             getInputProps={getInputProps}
             removePhoto={removePhoto}
             margin={margin}
+            {...attrs}
         />
     );
 }

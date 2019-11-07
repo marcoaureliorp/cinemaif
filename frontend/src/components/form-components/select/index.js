@@ -26,11 +26,12 @@ function Select({
 
     const addCustomStyles = {
         control: (provided, state) => {
-            const borderWidth = 1;
+            const borderWidth = 3;
             const borderRadius = 10;
             const { menuIsOpen } = state;
             const boxShadow = colors.light_red;
-            const borderColor = menuIsOpen ? colors.red : 'transparent';
+            let borderColor = menuIsOpen ? colors.red : 'transparent';
+            borderColor = error_message && error_message !== '' ? colors.red : borderColor;
 
             return {
                 ...provided,
@@ -77,7 +78,7 @@ function Select({
     const ReactStyledSelect = type_select === 'async' ? StyledAsyncSelect : StyledSelect;
 
     return (
-        <Container width={width} margin={margin}>
+        <Container width={width} margin={margin} >
             <ReactStyledSelect
                 {...attrs}
                 theme={addTheme}

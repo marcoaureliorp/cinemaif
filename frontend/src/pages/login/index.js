@@ -1,5 +1,6 @@
 import React from 'react';
 import { Formik, Field } from 'formik';
+import * as Yup from 'yup';
 import { Container, ContainerEditor } from './style';
 import Input from '../../components/controlled-input';
 import Button from '../../components/button';
@@ -32,6 +33,13 @@ function Login(props) {
             <ContainerEditor>
                 <Formik
                     enableReinitialize
+                    initialValues={{ login: '', senha: '' }}
+                    validationSchema={Yup.object({
+                        login: Yup.string()
+                            .required('Login é obrigatório!'),
+                        senha: Yup.string()
+                            .required('Senha é obrigatório!'),
+                    })}
                     onSubmit={async (values, { setSubmitting, resetForm, ...rest }) => {
                         const login_to_database = { ...values };
                         const res = await api.get('/login', { params: login_to_database });

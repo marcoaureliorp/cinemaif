@@ -1,4 +1,4 @@
-import styled, {createGlobalStyle} from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 import RCTimePicker from 'rc-time-picker';
 import 'rc-time-picker/assets/index.css';
 import { colors } from '../../../config/theme';
@@ -9,6 +9,7 @@ const StyledRCTimePicker = styled(RCTimePicker)`
     z-index: 0;
     .rc-time-picker-input {
         border-radius: 13px;
+        border: ${props => (props.error_message && props.error_message !== '' ? `3px solid ${colors.red}` : '3px solid transparent')};
         background: ${colors.white};
         padding: 20px 19px;
         color: ${colors.black};
@@ -33,4 +34,4 @@ const InputStyle = createGlobalStyle`
 `;
 
 
-export { StyledRCTimePicker,InputStyle };
+export { StyledRCTimePicker, InputStyle };

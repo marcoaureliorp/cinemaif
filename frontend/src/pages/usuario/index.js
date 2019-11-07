@@ -1,5 +1,6 @@
 import React from 'react';
 import { Formik, Field } from 'formik';
+import * as Yup from 'yup';
 import Moment from 'moment';
 import cogoToast from 'cogo-toast';
 import { Container, ContainerEditor } from './styles';
@@ -41,6 +42,13 @@ function Usuario(props) {
             <ContainerEditor>
                 <Formik
                     initialValues={{ login: '', senha: '', data_nascimento: null }}
+                    validationSchema={Yup.object({
+                        login: Yup.string()
+                            .required('Login é obrigatório!'),
+                        senha: Yup.string()
+                            .required('Senha é obrigatório!'),
+                        data_nascimento: Yup.mixed().required().validDate(),
+                    })}
                     onSubmit={async (values, { setSubmitting, resetForm, ...rest }) => {
                         const usuario_to_database = { ...values };
 

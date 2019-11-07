@@ -44,7 +44,7 @@ const Image = styled('img')`
 const AddPhoto = styled('div')`
     width: 100%;
     height: 396px;
-    border: 3px dashed ${colors.white};
+    border: ${props => (props.error_message && props.error_message !== '' ? `3px dashed ${colors.red}` : `3px dashed ${colors.white}`)};
     display: flex;
     justify-content: center;
     align-items: center;

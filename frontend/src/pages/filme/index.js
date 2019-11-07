@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Formik, Field } from 'formik';
+import * as Yup from 'yup';
 import Moment from 'moment';
 import Page from '../../components/page';
 import {
@@ -22,7 +23,7 @@ function Filme(props) {
     const [filme, setFilme] = useState({});
 
     const initial_values = filme.id ? filme : {
-        classificacao: '', generos: [], duracao: null, titulo: '', capa: '', sinopse: '',
+        classificacao: null, generos: null, duracao: null, titulo: '', capa: '', sinopse: '',
     };
 
     useEffect(() => {
@@ -91,7 +92,7 @@ function Filme(props) {
                                 component={ControlledUploadFile}
                             />
                             <Title>{values.titulo !== '' ? values.titulo : 'Título'}</Title>
-                            <Gender>{values.generos.length > 0 ? values.generos.map(item => item.label).join(', ') : 'Gêneros'}</Gender>
+                            <Gender>{values.generos && values.generos.length > 0 ? values.generos.map(item => item.label).join(', ') : 'Gêneros'}</Gender>
                             <Duration>{values.duracao && values.duracao._d ? Moment(values.duracao._d).format('HH:mm') : 'Duração'}</Duration>
                         </Left>
                         <Right>{values.sinopse !== '' ? values.sinopse : 'Sinopse'}</Right>
@@ -146,11 +147,29 @@ function Filme(props) {
         </form>
     );
 
+    const rules = {
+        titulo: Yup.string()
+            .required('Login é obrigatório!'),
+        sinopse: Yup.string()
+            .required('Senha é obrigatório!'),
+        duracao: Yup.mixed()
+            .required().validMoment(),
+        generos: Yup.mixed().required(),
+        classificacao: Yup.mixed().required(),
+    };
+
+    if (initial_values.id) {
+        rules.capa = Yup.string().required();
+    } else {
+        rules.capa = Yup.mixed().required().typeFile();
+    }
+
     return (
         <Page title="Cadastro de Filmes">
             <Formik
                 enableReinitialize
                 initialValues={initial_values}
+                validationSchema={Yup.object(rules)}
                 onSubmit={async (values, { setSubmitting, resetForm, ...rest }) => {
                     const filme_to_database = { ...values };
                     const data = new FormData();
@@ -175,8 +194,14 @@ function Filme(props) {
                     const res = await api.post('/filmes', data);
 
                     if (res.status === 200) {
-                        const lista_generos = generos.map(item => ({ filme_id: res.data.id || filme.id, genero_id: item }));
-                        const resolve = await api.post('/filmes_generos', { filme_id: res.data.id || filme.id, filme_genero: lista_generos });
+                        const lista_generos = generos.map(item => ({
+                            filme_id: res.data.id || filme.id,
+                            genero_id: item,
+                        }));
+                        const resolve = await api.post('/filmes_generos', {
+                            filme_id: res.data.id || filme.id,
+                            filme_genero: lista_generos,
+                        });
 
                         if (res.data.id) {
                             props.history.push(`/filme/${res.data.id}`);

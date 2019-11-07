@@ -16,6 +16,7 @@ const Container = styled('div')`
     width: 100%;
     font-weight: bold;
     height: 64px;
+    border: ${props => (props.error_message && props.error_message !== '' ? `3px solid ${colors.red}` : '3px solid transparent')};
     ${props => (props.margin ? `margin: ${props.margin}` : null)};
 `;
 
