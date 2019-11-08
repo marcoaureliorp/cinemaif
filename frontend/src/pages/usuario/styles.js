@@ -1,8 +1,10 @@
 import styled from 'styled-components';
+import { colors } from '../../config/theme';
 
 const Container = styled('div')`
     width: 100%;
     height: 100%;
+    background: ${colors.grey};
     display: flex;
     flex-direction: column;
     justify-content: center;

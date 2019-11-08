@@ -59,6 +59,7 @@ function Usuario(props) {
 
                         if (res.status === 200) {
                             cogoToast.success('Usuário cadastrado com sucesso!');
+                            window.location.href = '/';
                             resetForm();
                         } else {
                             console.log(res.error);

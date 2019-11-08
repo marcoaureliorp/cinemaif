@@ -26,7 +26,6 @@ function ControlledInput({
 }) {
     const { name, value } = field;
     const { errors, touched } = form;
-    console.log(form);
 
     const general_events = {
         onChange(event) {

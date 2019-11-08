@@ -14,7 +14,11 @@ function Header(props) {
                     <MdSearch color={colors.white} size="25px" />
                     <Search />
                 </ContainerBusca>
-                <div>
+                <div onClick={() => {
+                    props.setUser && props.setUser();
+                    window.location.reload();
+                }}
+                >
                     <MdPowerSettingsNew color={colors.white} size="31px" style={{ marginRight: '12px' }} />
                     <Text weight="bold" font_size={18}>Sair</Text>
                 </div>

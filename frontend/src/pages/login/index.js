@@ -7,7 +7,7 @@ import Button from '../../components/button';
 import api from '../../services/api';
 
 
-function Login(props) {
+function Login({ setUser }) {
     // eslint-disable-next-line react/prop-types
     const makeForm = ({ handleSubmit }) => (
         <form onSubmit={handleSubmit}>
@@ -42,20 +42,30 @@ function Login(props) {
                     })}
                     onSubmit={async (values, { setSubmitting, resetForm, ...rest }) => {
                         const login_to_database = { ...values };
-                        const res = await api.get('/login', { params: login_to_database });
-
-                        if (res.status === 200 && res.data.results.length > 0) {
-                            alert('Login efetuado com sucesso!');
-                            props.history.push('/home');
-                            resetForm();
-                        } else {
-                            console.log('erro login', res);
-                            alert('Login/senha incorretos!');
+                        try {
+                            const data = await api.post('auth', {
+                                ...login_to_database,
+                            });
+                            if (data.status) {
+                                setUser(data.data);
+                            } else {
+                                console.log('E-mail e senha incorretos');
+                            }
+                        } catch (e) {
+                            console.error('E-mail e senha incorretos');
                         }
                     }}
                 >
                     {makeForm}
                 </Formik>
+                <a
+                    onClick={(e) => {
+                        e.preventDefault();
+                        window.location.href = '/usuario';
+                    }}
+                >
+Não tenho cadastro
+                </a>
             </ContainerEditor>
         </Container>
     );

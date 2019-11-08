@@ -1,4 +1,5 @@
 const express = require('express');
+const bcrypt = require('bcrypt');
 
 const Usuario = require('../models/usuario');
 
@@ -26,6 +27,11 @@ router.get('/', async (req, res) => {
     }
 });
 
+const encryptPassword = password => {
+    const salt = bcrypt.genSaltSync(10);
+    return bcrypt.hashSync(password, salt);
+};
+
 const save = async (req, res) => {
     const { usuario } = req.body;
 
@@ -36,7 +42,8 @@ const save = async (req, res) => {
             throw 'Login inválida!';
         }
 
-        console.log('api', usuario);
+        if (usuario.senha) usuario.senha = encryptPassword(usuario.senha);
+
         const result = await Usuario.save(usuario);
 
         if (result === true) {
