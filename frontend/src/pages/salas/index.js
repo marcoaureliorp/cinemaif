@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Formik, Field } from 'formik';
+import * as Yup from 'yup';
+import cogoToast from 'cogo-toast';
 import Page from '../../components/page';
 import StyledTable from '../../components/styled-table';
 import { Container, ContainerTable, ContainerEditor } from './style';
@@ -7,7 +9,6 @@ import Input from '../../components/controlled-input';
 import { ButtonGroup } from '../../components/button/styles';
 import Button from '../../components/button';
 import api from '../../services/api';
-import * as Yup from "yup";
 
 
 function Sala(props) {
@@ -44,13 +45,16 @@ function Sala(props) {
                 component={Input}
                 type="number"
                 name="cadeiras"
-                placeholder="Cadeiras"
+                placeholder="Cadeiras (40 - 80)"
                 margin="0 0 19px 0"
+                autoComplete="off"
+                maxLength="11"
             />
             <Field
                 component={Input}
                 name="numero"
                 placeholder="Número"
+                maxLength="50"
             />
             <ButtonGroup margin="21px 0 0 0">
                 <Button label="Cancelar" kind="cancel" type="cancel" />
@@ -83,6 +87,7 @@ function Sala(props) {
 
                                 if (res.status === 204) {
                                     setUpdateTable(true);
+                                    cogoToast.success('Sala apagada com sucesso!');
                                 }
                             }
                         }}
@@ -109,6 +114,15 @@ function Sala(props) {
                                 resetForm();
                                 setSala({});
                                 setUpdateTable(true);
+
+                                if (res.data.id) {
+                                    cogoToast.success('Sala cadastrada com sucesso!');
+                                } else if (res.data) {
+                                    cogoToast.success('Sala alterada com sucesso!');
+                                }
+                            } else {
+                                console.log(res.error);
+                                cogoToast.error('Erro ao salvar Sala');
                             }
                         }}
                     >

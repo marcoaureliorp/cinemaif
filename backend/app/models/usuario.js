@@ -16,8 +16,8 @@ class Usuario extends BaseModel {
             required: ['login', 'senha', 'data_nascimento'],
             properties: {
                 id: { type: 'integer' },
-                login: { type: 'string', minLength: 1, maxLength: 240 },
-                senha: { type: 'string', minLength: 6, maxLength: 240 },
+                login: { type: 'string', minLength: 1, maxLength: 255 },
+                senha: { type: 'string', minLength: 6, maxLength: 255 },
                 data_nascimento: { type: 'date', format: 'date' },
             },
         };

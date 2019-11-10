@@ -16,8 +16,8 @@ class Sala extends BaseModel {
             required: ['cadeiras', 'numero'],
             properties: {
                 id: { type: 'integer' },
-                cadeiras: { type: 'string', minLength: 1, maxLength: 240 },
-                numero: { type: 'string', minLength: 1, maxLength: 240 },
+                cadeiras: { type: 'string', minLength: 1, maxLength: 11 },
+                numero: { type: 'string', minLength: 1, maxLength: 50 },
             },
         };
     }

@@ -16,7 +16,7 @@ class Genero extends BaseModel {
             required: ['descricao'],
             properties: {
                 id: { type: 'integer' },
-                descricao: { type: 'string', minLength: 1, maxLength: 240 },
+                descricao: { type: 'string', minLength: 1, maxLength: 255 },
             },
         };
     }

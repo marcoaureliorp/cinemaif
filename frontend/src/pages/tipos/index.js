@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Formik, Field } from 'formik';
+import * as Yup from 'yup';
+import cogoToast from 'cogo-toast';
 import Page from '../../components/page';
 import StyledTable from '../../components/styled-table';
 import { Container, ContainerTable, ContainerEditor } from './style';
@@ -7,7 +9,6 @@ import Input from '../../components/controlled-input';
 import { ButtonGroup } from '../../components/button/styles';
 import Button from '../../components/button';
 import api from '../../services/api';
-import * as Yup from "yup";
 
 
 function Tipos(props) {
@@ -39,6 +40,8 @@ function Tipos(props) {
                 component={Input}
                 name="descricao"
                 placeholder="Tipo"
+                autoComplete="off"
+                maxLength="255"
             />
             <ButtonGroup margin="21px 0 0 0">
                 <Button label="Cancelar" kind="cancel" type="cancel" />
@@ -71,6 +74,7 @@ function Tipos(props) {
 
                                 if (res.status === 204) {
                                     setUpdateTable(true);
+                                    cogoToast.success('Tipo apagado com sucesso!');
                                 }
                             }
                         }}
@@ -93,6 +97,15 @@ function Tipos(props) {
                                 resetForm();
                                 setTipo({});
                                 setUpdateTable(true);
+
+                                if (res.data.id) {
+                                    cogoToast.success('Tipo cadastrado com sucesso!');
+                                } else if (res.data) {
+                                    cogoToast.success('Tipo alterado com sucesso!');
+                                }
+                            } else {
+                                console.log(res.error);
+                                cogoToast.error('Erro ao salvar Tipo');
                             }
                         }}
                     >

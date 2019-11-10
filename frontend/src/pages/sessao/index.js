@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
+import cogoToast from 'cogo-toast';
 import moment from 'moment';
 import Page from '../../components/page';
 import { Container } from './styles';
@@ -139,6 +140,7 @@ function Sessao(props) {
                     placeholder="Preço"
                     type="pricing"
                     component={Input}
+                    autoComplete="off"
                 />
                 <Field
                     name="inicio_sessao"
@@ -147,6 +149,7 @@ function Sessao(props) {
                     type="time_picker"
                     component={Input}
                     placeholder="Início da sessão"
+                    autoComplete="off"
                 />
                 <Field
                     name="final_sessao"
@@ -154,6 +157,7 @@ function Sessao(props) {
                     type="time_picker"
                     component={Input}
                     placeholder="Final da sessão"
+                    autoComplete="off"
                 />
                 <ButtonGroup margin="21px 0 0 0">
                     <Button label="Cancelar" kind="cancel" type="cancel" />
@@ -206,6 +210,7 @@ function Sessao(props) {
 
                                 if (res.status === 204) {
                                     setUpdateTable(true);
+                                    cogoToast.success('Sessão apagada com sucesso!');
                                 }
                             }
                         }}
@@ -261,6 +266,15 @@ function Sessao(props) {
                                     resetForm();
                                     setSessao({});
                                     setUpdateTable(true);
+
+                                    if (result.data.id) {
+                                        cogoToast.success('Sessão cadastrada com sucesso!');
+                                    } else if (result.data) {
+                                        cogoToast.success('Sessão alterada com sucesso!');
+                                    }
+                                } else {
+                                    console.log(result.error);
+                                    cogoToast.error('Erro ao salvar Sessão');
                                 }
                             }
 

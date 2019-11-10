@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
+import cogoToast from 'cogo-toast';
 import Page from '../../components/page';
 import StyledTable from '../../components/styled-table';
 import { Container, ContainerTable, ContainerEditor } from './style';
@@ -39,6 +40,8 @@ function Generos(props) {
                 component={Input}
                 name="descricao"
                 placeholder="Gênero"
+                autoComplete="off"
+                maxLength="255"
             />
             <ButtonGroup margin="21px 0 0 0">
                 <Button label="Cancelar" kind="cancel" type="cancel" />
@@ -71,6 +74,7 @@ function Generos(props) {
 
                                 if (res.status === 204) {
                                     setUpdateTable(true);
+                                    cogoToast.success('Gênero apagado com sucesso!');
                                 }
                             }
                         }}
@@ -93,6 +97,15 @@ function Generos(props) {
                                 resetForm();
                                 setGenero({});
                                 setUpdateTable(true);
+
+                                if (res.data.id) {
+                                    cogoToast.success('Gênero cadastrado com sucesso!');
+                                } else if (res.data) {
+                                    cogoToast.success('Gênero alterado com sucesso!');
+                                }
+                            } else {
+                                console.log(res.error);
+                                cogoToast.error('Erro ao salvar Gênero');
                             }
                         }}
                     >

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
 import Moment from 'moment';
+import cogoToast from 'cogo-toast';
 import Page from '../../components/page';
 import {
     Container, ContainerPreview, ContainerEditor, FilmePreview, Left, Title, Gender, Duration, Right,
@@ -104,6 +105,8 @@ function Filme(props) {
                         margin="0 0 19px 0"
                         placeholder="Título do filme"
                         component={ControlledInput}
+                        maxLength="255"
+                        autoComplete="off"
                     />
                     <Field
                         name="duracao"
@@ -112,6 +115,7 @@ function Filme(props) {
                         placeholder="Duração do filme"
                         type="time_picker"
                         component={ControlledInput}
+                        autoComplete="off"
                     />
                     <Field
                         name="classificacao"
@@ -137,6 +141,7 @@ function Filme(props) {
                         as="textarea"
                         placeholder="Sinopse do filme"
                         component={ControlledInput}
+                        maxLength="255"
                     />
                     <ButtonGroup>
                         <Button kind="cancel" label="Cancelar" />
@@ -198,14 +203,21 @@ function Filme(props) {
                             filme_id: res.data.id || filme.id,
                             genero_id: item,
                         }));
+
                         const resolve = await api.post('/filmes_generos', {
                             filme_id: res.data.id || filme.id,
                             filme_genero: lista_generos,
                         });
 
                         if (res.data.id) {
+                            cogoToast.success('Filme cadastrado com sucesso!');
                             props.history.push(`/filme/${res.data.id}`);
+                        } else if (res.data) {
+                            cogoToast.success('Filme atualizado com sucesso!');
                         }
+                    } else {
+                        cogoToast.error('Erro ao salvar o filme');
+                        console.log(res.error);
                     }
                 }}
             >

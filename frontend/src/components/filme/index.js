@@ -1,11 +1,13 @@
 import React from 'react';
 import {
-    Container, IconEditFilm, IconEditSession, Capa, Text,
+    Container, IconEditFilm, IconEditSession, IconDeleteFilm, Capa, Text,
 } from './styles';
 import { colors } from '../../config/theme';
 import { classificacaoBackgroundList } from '../../util/classificacao-list';
 
 import Classificacao from '../classificacao';
+import api from "../../services/api";
+import cogoToast from "cogo-toast";
 
 function Filme({
     history, id, titulo, generos, capa, classificacao,
@@ -24,6 +26,19 @@ function Filme({
                 position="absolute"
                 color={colors.white}
                 onClick={() => history.push(`/sessao/${id}`)}
+                display="none"
+            />
+            <IconDeleteFilm
+                position="absolute"
+                color={colors.white}
+                onClick={async () => {
+                    const res = await api.delete('/filmes', { params: { id } });
+
+                    if (res.status === 204) {
+                        cogoToast.success('Filme apagado com sucesso!');
+                        window.location.reload();
+                    }
+                }}
                 display="none"
             />
             <Classificacao classificacao={get_classificacao.id} background={get_classificacao.backgroundColor} />

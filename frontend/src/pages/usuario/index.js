@@ -17,6 +17,8 @@ function Usuario(props) {
                 name="login"
                 margin="0 0 19px 0"
                 placeholder="Login"
+                autoComplete="off"
+                maxLength="255"
             />
             <Field
                 component={ControlledInput}
@@ -24,6 +26,8 @@ function Usuario(props) {
                 type="password"
                 margin="0 0 19px 0"
                 placeholder="Senha"
+                maxLength="255"
+                minLength="6"
             />
             <Field
                 component={ControlledInput}
@@ -32,6 +36,7 @@ function Usuario(props) {
                 margin="0 0 19px 0"
                 type="date"
                 placeholder="Data de Nascimento"
+                autoComplete="off"
             />
             <Button label="Salvar" kind="save" width="100%" type="submit" />
         </form>
@@ -59,8 +64,8 @@ function Usuario(props) {
 
                         if (res.status === 200) {
                             cogoToast.success('Usuário cadastrado com sucesso!');
-                            window.location.href = '/';
                             resetForm();
+                            window.location.href = '/';
                         } else {
                             console.log(res.error);
                             cogoToast.error('Erro ao cadastrar Usuário!');

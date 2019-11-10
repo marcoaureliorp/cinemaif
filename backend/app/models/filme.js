@@ -16,8 +16,8 @@ class Filme extends BaseModel {
             required: ['titulo'],
             properties: {
                 id: { type: 'integer' },
-                titulo: { type: 'string', minLength: 1, maxLength: 240 },
-                sinopse: { type: 'string' },
+                titulo: { type: 'string', minLength: 1, maxLength: 255 },
+                sinopse: { type: 'string', minLength: 1, maxLength: 255 },
                 duracao: { type: 'string', minLength: 1, maxLength: 5 },
                 classificacao: { type: 'string', minLength: 1, maxLength: 2 },
                 capa: { type: 'string' },
@@ -87,6 +87,7 @@ class Filme extends BaseModel {
     }
 
     static async save(filme) {
+        console.log(filme);
         if (filme.id) {
             const filme_database = await this.query().select('*').where('id', filme.id).first();
             if (filme_database && filme_database.id) {

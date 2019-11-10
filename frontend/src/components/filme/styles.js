@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { FaFilm, FaEdit } from 'react-icons/fa';
+import { FaFilm, FaEdit, FaTrash } from 'react-icons/fa';
 import { colors } from '../../config/theme';
 import { parse } from '../../util/styled-components/font-size';
 
@@ -27,6 +27,18 @@ const IconEditSession = styled(FaFilm)`
     z-index: ${props => (props.z_index ? props.z_index : null)};
 `;
 
+const IconDeleteFilm = styled(FaTrash)`
+    color: ${props => (props.color ? props.color : colors.black)};
+    display: ${props => (props.display ? props.display : 'block')};
+    height: 36px;
+    right: ${props => (props.position ? '0' : 'unset')};
+    margin-top: ${props => (props.position ? '0' : '10px')};
+    position: ${props => (props.position ? props.position : 'unset')};
+    bottom: ${props => (props.position ? '0' : 'unset')};
+    width: 36px;
+    z-index: ${props => (props.z_index ? props.z_index : null)};
+`;
+
 const Container = styled('div')`
     width: 271px;
     height: 483px;
@@ -37,7 +49,8 @@ const Container = styled('div')`
     position: relative;
     
     &:hover > ${IconEditFilm},
-    &:hover > ${IconEditSession} {
+    &:hover > ${IconEditSession},
+    &:hover > ${IconDeleteFilm} {
         cursor: pointer;
         display: block;
     }
@@ -56,4 +69,4 @@ const Text = styled('p')`
     margin: ${props => (props.margin ? props.margin : '')};
 `;
 
-export { Container, IconEditFilm, IconEditSession, Capa, Text };
+export { Container, IconEditFilm, IconEditSession, IconDeleteFilm, Capa, Text };
