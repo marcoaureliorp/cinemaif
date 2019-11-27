@@ -1,43 +1,85 @@
 import React, { useState, useEffect } from 'react';
-import { Container } from './style';
+import moment from 'moment';
+import { Container, ContainerTable } from './style';
 import Page from '../../components/page';
-import Sessao from '../../components/sessao';
 
 import api from '../../services/api';
+import StyledTable from '../../components/styled-table';
 
-function Sessoes({ history }) {
-    const [sessoes, setSessoes] = useState([]);
-
-    async function getSessoes() {
-        const limit = 10;
-        const res = await api.get('/sessoes', { limit });
-        setSessoes(res.data.results);
-    }
+function Sessoes(props) {
+    const [updateTable, setUpdateTable] = useState(false);
+    const filme_id = Number(props.match.params.id) || null;
 
     useEffect(() => {
-        getSessoes().then();
-    }, []);
+        if (updateTable) {
+            setUpdateTable(false);
+        }
+    }, [updateTable]);
+
+    async function getSessoes({ page, limit, ...props }) {
+        console.log(props);
+        const result = await api.get('sessoes', {
+            params: {
+                filme: filme_id,
+                page,
+                limit,
+            },
+        });
+
+        console.log(result);
+
+        return result;
+    }
+
+    const headers = [
+        {
+            name: 'Filme',
+            accessor: 'filme.titulo',
+            value: 'Tipo',
+        },
+        {
+            name: 'Tipo',
+            accessor: 'tipo.descricao',
+            value: 'Tipo',
+        },
+        {
+            name: 'Início',
+            accessor: 'inicio_sessao',
+            value: 'Início',
+            Cell: (props) => {
+                const value = moment(props.value, 'HH:mm:ss');
+                return (<div>{value.format('HH:mm:ss')}</div>);
+            },
+        },
+        {
+            name: 'Fim',
+            accessor: 'final_sessao',
+            value: 'Fim',
+            Cell: (props) => {
+                const value = moment(props.value, 'HH:mm:ss');
+                return (<div>{value.format('HH:mm:ss')}</div>);
+            },
+        },
+    ];
 
     return (
         <Page
             title="Sessões"
-            history={history}
+            history={props.history}
         >
             <Container>
-                {sessoes.length > 0 && sessoes.map(item => (
-                    <Sessao
-                        key={item.id}
-                        id={item.id}
-                        filme_id={item.filme.id}
-                        titulo={item.filme.titulo}
-                        capa={`${api.defaults.baseURL}uploads/${item.filme.capa}`}
-                        classificacao={item.filme.classificacao}
-                        horarios={[item.inicio_sessao, item.final_sessao]}
-                        sala={item.sala.numero}
-                        tipo={[item.tipo.descricao]}
-                        history={history}
+                <ContainerTable>
+                    <StyledTable
+                        headers={headers}
+                        fireFetch={updateTable}
+                        // eslint-disable-next-line max-len,no-return-await
+                        data_function={getSessoes}
+                        editFunction={({ original }) => {}}
+                        clickHandler={async (state, rowInfo, column, instance) => {}}
+                        loading={false}
+                        hideHandleColumns={true}
                     />
-                ))}
+                </ContainerTable>
             </Container>
         </Page>
     );

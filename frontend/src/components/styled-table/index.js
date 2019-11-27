@@ -16,7 +16,7 @@ const initialState = {
 };
 
 function StyledTable({
-    headers, data_function, submenuOption, clickHandler, fireFetch, ...attrs
+    headers, data_function, submenuOption, clickHandler, fireFetch, hideHandleColumns, ...attrs
 }) {
     const [tableState, setTableState] = useState({ ...initialState });
     const tableRef = useRef(null);
@@ -31,37 +31,40 @@ function StyledTable({
         {
             Header: props => <div>{name}</div>,
             Cell: props => <div>{props.value}</div>,
-            sortable: false,
+            sortable: true,
             resizable: false,
             ...header_props,
         }
     ));
 
-    columns.push(
-        {
-            Header: props => 'Editar',
-            Cell: props => <EditIcon size={24} />,
-            sortable: false,
-            resizable: false,
-            width: '105',
-            name: 'edit',
-        },
-        {
-            Header: props => 'Excluir',
-            Cell: props => <TrashIcon size={24} />,
-            sortable: false,
-            resizable: false,
-            width: '105',
-            name: 'delete',
-        },
-    );
+    if (!hideHandleColumns) {
+        columns.push(
+            {
+                Header: props => 'Editar',
+                Cell: props => <EditIcon size={24}/>,
+                sortable: false,
+                resizable: false,
+                width: '105',
+                name: 'edit',
+            },
+            {
+                Header: props => 'Excluir',
+                Cell: props => <TrashIcon size={24}/>,
+                sortable: false,
+                resizable: false,
+                width: '105',
+                name: 'delete',
+            },
+        );
+    }
 
     const handleData = async (data_props) => {
         setTableState({ ...tableState, loading: true });
 
-        const { pageSize = 15, page } = data_props;
+        const { pageSize = 15, page, sorted } = data_props;
+        console.log(data_props);
 
-        const request_data = await data_function({ page, limit: pageSize });
+        const request_data = await data_function({ page, limit: pageSize, sorted });
         const { total, results } = request_data.data;
 
         const pages = Math.ceil(Number(total) / Number(pageSize));
@@ -114,6 +117,7 @@ StyledTable.propTypes = {
     submenuOption: PropTypes.func,
     clickHandler: PropTypes.func,
     fireFetch: PropTypes.bool,
+    hideHandleColumns: PropTypes.bool,
 };
 
 StyledTable.defaultProps = {
