@@ -1,14 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
-import { Container, ContainerTable } from './style';
+import {
+    Container, ContainerTable, Row, Exportar,
+} from './style';
 import Page from '../../components/page';
+import Select from '../../components/form-components/select';
 
 import api from '../../services/api';
 import StyledTable from '../../components/styled-table';
+import { parser } from '../../util/styled-components/select-parser';
+import TimePicker from '../../components/form-components/time-picker';
 
 function Sessoes(props) {
     const [updateTable, setUpdateTable] = useState(false);
     const filme_id = Number(props.match.params.id) || null;
+    const [arrayTipos, setArrayTipos] = useState([]);
+    const [filtros, setFiltros] = useState({
+        tipo: '',
+        inicio: null,
+        fim: null,
+    });
 
     useEffect(() => {
         if (updateTable) {
@@ -16,10 +27,23 @@ function Sessoes(props) {
         }
     }, [updateTable]);
 
+    useEffect(() => {
+        async function getInfoSelects() {
+            const result_tipos = await api.get('/tipos');
+            if (result_tipos.data.results) {
+                const formatedTipos = parser('descricao', 'id', result_tipos.data.results);
+                setArrayTipos(formatedTipos);
+            }
+        }
+
+        getInfoSelects();
+    }, []);
+
     async function getSessoes({ page, limit, ...props }) {
         const result = await api.get('sessoes', {
             params: {
                 filme: filme_id,
+                ...filtros,
                 page,
                 limit,
             },
@@ -65,22 +89,57 @@ function Sessoes(props) {
             history={props.history}
         >
             <Container>
-                <div onClick={() => {
-                    async function exportar() {
-                        const result = await api.get('sessoes/exportar', {
-                            params: {
-                                filme: filme_id,
-                            },
-                        });
+                <Row>
+                    <Select
+                        name="tipo"
+                        margin="0 20px 0 0"
+                        onChange={(value) => {
+                            setFiltros({ ...filtros, tipo: value && value.value ? value.value : null });
+                            setUpdateTable(true);
+                        }}
+                        isClearable
+                        options={arrayTipos}
+                    />
+                    <TimePicker
+                        name="inicio"
+                        margin="0 20px 0 0"
+                        placeholder="Início da sessão"
+                        autoComplete="off"
+                        onChange={(value) => {
+                            const inicio = moment(value._d).format('HH:mm:00');
+                            setFiltros({ ...filtros, inicio });
+                            setUpdateTable(true);
+                        }}
+                    />
+                    <TimePicker
+                        name="fim"
+                        margin="0 20px 0 0"
+                        placeholder="Final da sessão"
+                        autoComplete="off"
+                        onChange={(value) => {
+                            const fim = moment(value._d).format('HH:mm:00');
+                            setFiltros({ ...filtros, fim });
+                            setUpdateTable(true);
+                        }}
+                    />
+                    <Exportar onClick={() => {
+                        async function exportar() {
+                            const result = await api.get('sessoes/exportar', {
+                                params: {
+                                    filme: filme_id,
+                                    ...filtros,
+                                },
+                            });
 
-                        window.open(`${api.defaults.baseURL}uploads/${result.data}`);
-                    }
+                            window.open(`${api.defaults.baseURL}uploads/${result.data}`);
+                        }
 
-                    exportar();
-                }}
-                >
+                        exportar();
+                    }}
+                    >
 Exportar
-                </div>
+                    </Exportar>
+                </Row>
                 <ContainerTable>
                     <StyledTable
                         headers={headers}

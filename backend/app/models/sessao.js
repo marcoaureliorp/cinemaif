@@ -68,6 +68,9 @@ class Sessao extends BaseModel {
         search,
         page,
         filme,
+        inicio,
+        fim,
+        tipo,
     }) {
         const query = this.query().select();
 
@@ -80,6 +83,18 @@ class Sessao extends BaseModel {
 
         if (filme) {
             query.where('filme_id', filme);
+        }
+
+        if (inicio) {
+            query.where('inicio_sessao', '>=', inicio);
+        }
+
+        if (fim) {
+            query.where('final_sessao', '<=', fim);
+        }
+
+        if (tipo) {
+            query.where('tipo_id', tipo);
         }
 
         if (limit !== null) {

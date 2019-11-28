@@ -14,6 +14,9 @@ router.get('/', async (req, res) => {
     const limit = req.query.limit || null;
     const search = req.query.search || null;
     const filme = req.query.filme || null;
+    const inicio = req.query.inicio || null;
+    const fim = req.query.fim || null;
+    const tipo = req.query.tipo || null;
     const page = req.query.page || 1;
 
     const data = {
@@ -22,6 +25,9 @@ router.get('/', async (req, res) => {
         search,
         page,
         filme,
+        inicio,
+        fim,
+        tipo,
     };
 
     try {
@@ -39,6 +45,9 @@ router.get('/exportar', async (req, res) => {
     const limit = req.query.limit || null;
     const search = req.query.search || null;
     const filme = req.query.filme || null;
+    const inicio = req.query.inicio || null;
+    const fim = req.query.fim || null;
+    const tipo = req.query.tipo || null;
     const page = req.query.page || 1;
 
     const data = {
@@ -47,6 +56,9 @@ router.get('/exportar', async (req, res) => {
         search,
         page,
         filme,
+        inicio,
+        fim,
+        tipo,
     };
 
     try {
