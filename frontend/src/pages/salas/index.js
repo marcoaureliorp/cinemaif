@@ -108,6 +108,7 @@ function Sala(props) {
                         initialValues={initialValues}
                         onSubmit={async (values, { setSubmitting, resetForm, ...rest }) => {
                             const sala_to_database = { ...values };
+                            sala_to_database.cadeiras = sala_to_database.cadeiras.toString();
                             const res = await api.post('/salas', { sala: sala_to_database });
 
                             if (res.status === 200) {

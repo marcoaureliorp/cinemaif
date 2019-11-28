@@ -44,6 +44,7 @@ const save = async (req, res) => {
             res.json(result);
         }
     } catch (msg) {
+        console.log(msg);
         res.status(400).send(msg);
     }
 };

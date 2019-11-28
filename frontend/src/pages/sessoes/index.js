@@ -17,7 +17,6 @@ function Sessoes(props) {
     }, [updateTable]);
 
     async function getSessoes({ page, limit, ...props }) {
-        console.log(props);
         const result = await api.get('sessoes', {
             params: {
                 filme: filme_id,
@@ -25,8 +24,6 @@ function Sessoes(props) {
                 limit,
             },
         });
-
-        console.log(result);
 
         return result;
     }
@@ -68,6 +65,22 @@ function Sessoes(props) {
             history={props.history}
         >
             <Container>
+                <div onClick={() => {
+                    async function exportar() {
+                        const result = await api.get('sessoes/exportar', {
+                            params: {
+                                filme: filme_id,
+                            },
+                        });
+
+                        window.open(`${api.defaults.baseURL}uploads/${result.data}`);
+                    }
+
+                    exportar();
+                }}
+                >
+Exportar
+                </div>
                 <ContainerTable>
                     <StyledTable
                         headers={headers}
@@ -77,7 +90,7 @@ function Sessoes(props) {
                         editFunction={({ original }) => {}}
                         clickHandler={async (state, rowInfo, column, instance) => {}}
                         loading={false}
-                        hideHandleColumns={true}
+                        hideHandleColumns
                     />
                 </ContainerTable>
             </Container>
