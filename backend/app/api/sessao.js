@@ -17,6 +17,7 @@ router.get('/', async (req, res) => {
     const inicio = req.query.inicio || null;
     const fim = req.query.fim || null;
     const tipo = req.query.tipo || null;
+    const order = req.query.order || null;
     const page = req.query.page || 1;
 
     const data = {
@@ -24,6 +25,7 @@ router.get('/', async (req, res) => {
         limit,
         search,
         page,
+        order,
         filme,
         inicio,
         fim,
@@ -48,6 +50,7 @@ router.get('/exportar', async (req, res) => {
     const inicio = req.query.inicio || null;
     const fim = req.query.fim || null;
     const tipo = req.query.tipo || null;
+    const order = req.query.order || null;
     const page = req.query.page || 1;
 
     const data = {
@@ -55,6 +58,7 @@ router.get('/exportar', async (req, res) => {
         limit,
         search,
         page,
+        order,
         filme,
         inicio,
         fim,

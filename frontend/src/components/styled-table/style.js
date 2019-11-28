@@ -59,6 +59,41 @@ const Table = styled(ReactTable)`
                 font-weight: bold;
                 padding-left: 42px;
                 text-align: left;
+                position:relative;
+                
+                &.-sort-asc {
+                  box-shadow: unset;
+                  
+                  &::after {
+                      width: 0; 
+                      height: 0; 
+                      border-left: 10px solid transparent;
+                      border-right: 10px solid transparent;
+                      
+                      border-bottom: 10px solid #fff;
+                      content: " ";
+                      position: absolute;
+                      right: 20px;
+                      top: 0;
+                  }
+                }
+                
+                &.-sort-desc {
+                  box-shadow: unset;
+                  
+                  &::after {
+                      width: 0; 
+                      height: 0; 
+                      border-left: 10px solid transparent;
+                      border-right: 10px solid transparent;
+                      
+                      border-top: 10px solid #fff;
+                      content: " ";
+                      position: absolute;
+                      right: 20px;
+                      bottom: 0;
+                  }
+                }
                 
                 &:first-child{
                     padding-left: ${props => (props.padding_left_first_child ? '25px' : '42px')};

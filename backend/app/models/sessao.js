@@ -67,6 +67,7 @@ class Sessao extends BaseModel {
         limit,
         search,
         page,
+        order,
         filme,
         inicio,
         fim,
@@ -103,6 +104,11 @@ class Sessao extends BaseModel {
 
         if (page !== 1 && limit !== null) {
             query.offset(page * limit - limit);
+        }
+
+        if (order !== null) {
+            const orderby = JSON.parse(order[0]);
+            query.orderBy(orderby.id, (orderby.desc ? 'DESC' : 'ASC'));
         }
 
         if (id !== 0) {

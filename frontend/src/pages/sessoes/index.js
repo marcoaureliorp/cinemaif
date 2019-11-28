@@ -40,12 +40,14 @@ function Sessoes(props) {
     }, []);
 
     async function getSessoes({ page, limit, ...props }) {
+        setFiltros({ ...filtros, order: (props.sorted[0] ? props.sorted : null) });
         const result = await api.get('sessoes', {
             params: {
                 filme: filme_id,
                 ...filtros,
-                page,
+                page: page || 1,
                 limit,
+                order: props.sorted,
             },
         });
 
